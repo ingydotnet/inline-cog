@@ -1,11 +1,11 @@
-= Inline Grant Accepted
+== Inline Grant Accepted
 
 (or How I learned to stop worrying and LOVE TEH PERL)
 
 Last week I returned from 3 weeks of adventure in Berlin and Netherland. Funny story… the night I arrived at Liz and Wendy's place, I was made aware of 2 things:
 
-+ Liz is on the TPF grant board
-+ She had a surprise for me, but couldn't tell me until midnight :)
+* Liz is on the TPF grant board
+* She had a surprise for me, but couldn't tell me until midnight :)
 
 Spoiler: "The Inline Grant"[http://news.perlfoundation.org/2014/09/grant-proposal-inlinecpp-modul.html] was approved!
 
@@ -20,5 +20,3 @@ I think this is the first TPF grant to be given to a pair of pair programmers! D
 Today (October 20th) marks the start of work in earnest on the grant. The delay is due to my unexpected but most fruitful trip to Europe. I'm dejetlagged and ready to hack! David has also just finished a lovely family vacation (to Zion and Bryce National Parks (YAPC::15 attendees with wheels should take note!)).
 
 We really want to thank the community for this opportunity to make Perl better!
-
-
