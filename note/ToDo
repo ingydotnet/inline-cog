@@ -1,6 +1,11 @@
 == Soon
 
+- Start up pairup-termcast server and put into topic
+- Write blog post of today's progress
+- Activate Dave / Ingy links
+
 
 == Later
 
 - Switch branches over to subrepos (of the same repo, but different branches).
+- Migrate to a local bootstrap for site longevity. (To not lose CSS)
