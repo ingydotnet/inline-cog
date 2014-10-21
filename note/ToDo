@@ -6,8 +6,8 @@
 - #magnet-srb and explain you want to get #inline sorted
 - Start #inline-grant for pairup dev (maybe)
 
-
 == Later
 
 - Switch branches over to subrepos (of the same repo, but different branches).
 - Migrate to a local bootstrap for site longevity. (To not lose CSS)
+- Move css, js, etc under resource/css/bootstrap resource/js resource/css/site
