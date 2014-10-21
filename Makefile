@@ -17,7 +17,6 @@ help:
 	@echo ''
 	@echo '    update       - Sync for build'
 	@echo '    build        - Rebuild website'
-	@echo '    publish      - Make website changes go live'
 	@echo '    clean        - Delete generated content'
 	@echo ''
 
@@ -25,10 +24,7 @@ update: $(SUBDIRS)
 
 build: update $(SITE_INDEX)
 
-publish:
-	@echo "'make publish' not yet implemented"
-
-clean:
+clean purge:
 	rm -fr $(TEMPDIR)
 
 #------------------------------------------------------------------------------
@@ -53,16 +49,3 @@ $(SITE_INDEX): posts
 
 $(HTMLDIR):
 	mkdir -p $@
-
-#------------------------------------------------------------------------------
-# XXX Not sure if this is really needed.
-# 	@for dir in $(SUBDIRS); do \
-# 	  ( \
-# 	    set -x; \
-# 	    cd $$dir; \
-# 	    [ -z "$$(git status -s)" ] || \
-# 	      { echo "$$dir unclean"; exit 1; }; \
-# 	    git fetch; git rebase origin/$$dir; \
-# 	  ) || exit $$?; \
-# 	done
-
