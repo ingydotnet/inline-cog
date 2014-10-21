@@ -10,17 +10,18 @@ Thoughts (cogs) about the TPF Inline Grant project
 
 = Description
 
-Cog is a concept that Ingy has been thinking on since 2006. It is a granular
-thought data store with many manifestations. In this context, it is simply the
-blog and info data for the Inline grant project, that happens to make a nice
-website.
+*Cog* is a concept that Ingy döt Net has been thinking on since 2006. It is a
+granular thought data store with many manifestations. In this context, it is
+simply the blog and info data for the Inline grant project, that happens to
+make a nice website.
 
 = Details
 
 This repo consists of several branch, each with a specific role:
 
 - `master`      :: Top level container
-- `cog`         :: The /Cog/ data store
+- `bootstrap`   :: Bootstrap HTML layout and theming
 - `build`       :: The tooling and templates to build a website
+- `cog`         :: The /Cog/ data store
 - `cogdb`       :: The tooling to manage the data store
 - `gh-pages`    :: The end result!
