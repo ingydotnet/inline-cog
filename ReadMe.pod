@@ -12,19 +12,24 @@ Inline Cog - Thoughts (cogs) about the TPF Inline Grant project
 
 =head1 Synopsis
 
+    > git clone git@github.com:ingydotnet/inline-cog.git
+    > cd inline-cog
+    > git checkout gh-pages
+    > make update
+    > # change site files
     > make build
     > make publish
 
 =head1 Description
 
 B<Cog> is a concept that Ingy döt Net has been thinking on since 2006. It is a
-granular thought data store with many manifestations. In this context, it is
+granular-thought-data-store with many manifestations. In this context, it is
 simply the blog and info data for the Inline grant project, that happens to
 make a nice website.
 
 =head1 Details
 
-This repo consists of several branch, each with a specific role:
+This repo consists of several branches, each with a specific role:
 
 =over
 
