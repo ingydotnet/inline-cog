@@ -1,0 +1,26 @@
+# = Ingy and David Bio
+
+== Ingy döt Net
+
+Ingy is the original creator of `Inline` and `Inline::C`. His primary focus in
+Perl is to bring the "hard" things into the hands of beginners.
+
+* Ingy döt Net <ingy@ingy.net>
+* http://ingy.net
+* https://github.com/ingydotnet
+* https://twitter.com/ingydotnet
+
+== David Oswald
+
+David has been maintaining `Inline::CPP` for four years, and is the only person
+to have made releases on `Inline::CPP` since 2003.
+
+* David Oswald <daoswald@gmail.com>
+* https://github.com/daoswald
+* https://twitter.com/doswaldcal
+
+----
+
+Ingy and David work well together and have decided to collaborate on a number
+of big projects that benefit Perl and Software Development. Inline was the
+obvious first choice.
