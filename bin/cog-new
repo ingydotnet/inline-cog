@@ -1,0 +1,15 @@
+#!/bin/bash
+
+Cog::Command.new() {
+  local id= node_path=
+  while true; do
+    id=$(cat /dev/urandom | tr -dc a-hj-np-z2-9 | head -c4)
+    [[ "$id" =~ ^[a-z].*[0-9] ]] || continue
+    node_path="$COG_ROOT/node/$id.cog"
+    [[ -e "$node_path" ]] || break
+  done
+
+  vim "$node_path"
+}
+
+[ "$0" != "$BASH_SOURCE" ] || ${BASH_SOURCE/cog-/cog } "$@"
