@@ -6,9 +6,12 @@ BRANCHES   := bootstrap build cog cogdb gh-pages
 SUBDIRS    := $(BRANCHES:%=$(TEMPDIR)/%)
 REPO_URL   := git@github.com:ingydotnet/inline-cog
 SITE_INDEX := ./index.html
+SITE_JS    := js/all.js
+
+JEMPLATES  := y6ut
 
 COG_ROOT   := $(TEMPDIR)/cog
-BUILD_ROOT   := $(TEMPDIR)/build
+BUILD_ROOT := $(TEMPDIR)/build
 
 default: help
 
@@ -22,7 +25,7 @@ help:
 
 update: $(SUBDIRS)
 
-build: update $(SITE_INDEX)
+build: update $(SITE_INDEX) $(SITE_JS)
 
 clean purge:
 	rm -fr $(TEMPDIR)
@@ -47,5 +50,17 @@ $(SITE_INDEX): posts
 	  --post-chomp index.html \
 	  > $@
 
-$(HTMLDIR):
+$(SITE_JS): js $(TEMPDIR)/jemplates force
+	jemplate --runtime --compile $(TEMPDIR)/jemplates > $@
+
+$(TEMPDIR)/jemplates: force
 	mkdir -p $@
+	@for j in $(JEMPLATES); do ( \
+	  set -x; \
+	  swim --to=html $(COG_ROOT)/node/$$j.cog > $@/$$j.html; \
+	); done
+
+$(HTMLDIR) js:
+	mkdir -p $@
+
+force:
