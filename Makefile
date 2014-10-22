@@ -8,7 +8,7 @@ REPO_URL   := git@github.com:ingydotnet/inline-cog
 SITE_INDEX := ./index.html
 SITE_JS    := js/all.js
 
-JEMPLATES  := y6ut
+JEMPLATES  := y6ut y5yq
 
 COG_ROOT   := $(TEMPDIR)/cog
 BUILD_ROOT := $(TEMPDIR)/build

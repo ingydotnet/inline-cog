@@ -1918,6 +1918,22 @@ if (typeof(exports) == 'object') {
 if (typeof(Jemplate) == 'undefined')
     throw('Jemplate.js must be loaded before any Jemplate template files');
 
+Jemplate.templateMap['y5yq.html'] = function(context) {
+    if (! context) throw('Jemplate function called without context\n');
+    var stash = context.stash;
+    var output = '';
+
+    try {
+output += '<!-- = Inline Grant Accepted -->\n\n<p>(or <strong>How I Learned to Stop Worrying and Love The Perl</strong>)</p>\n\n<p>Last week I returned from 3 weeks of adventure in Berlin and Netherland. Funny story… the night I arrived at Liz and Wendy&#39;s place, I was made aware of 2 things:</p>\n\n<ul>\n<li>Liz is on the TPF grant board</li>\n<li>She had a surprise for me, but couldn&#39;t tell me until midnight :)</li>\n</ul>\n\n<p>Spoiler: <a href="http://news.perlfoundation.org/2014/09/grant-proposal-inlinecpp-modul.html">The Inline Grant</a> was approved!</p>\n\n<p>The following evening, I attended the amsterdamx.pm (expats) at Booking.com++ HQ, and upon entering the meeting room, was asked by SawyerX if I could give a talk since ribasushi was stuck in traffic. Huh? WTF? Definitely! :) In the kind of coincidence that only happens regularly in the world of Perl, Karen Pauley happened to be there as well, not to mention Stevan, Jarrko and Dan Kogai! I rambled on about a dozen things that were currently loaded into ingy-RAM, but held off on talking about the grant as it hadn&#39;t been made public just yet.</p>\n\n<p>7 days to the minute later I gave a talk at amsterdam.pm and the main subject was the Inline grant. Instead of a talk, I gave a &quot;listen&quot;! I asked everyone there how they would go about actually implementing the grant solution. I got a lot of ideas, and since then I think I&#39;ve figured it out. Stay tuned…</p>\n\n<h2>Welcome to the Inline Grant blog!</h2>\n\n<p>I think this is the first TPF grant to be given to a pair of pair programmers! David and I want to make things as open as we can, so we plan to give weekly updates in addition to the TPF monthly status updates.</p>\n\n<p>Today (October 20th) marks the start of work in earnest on the grant. The delay is due to my unexpected but most fruitful trip to Europe. I&#39;m dejetlagged and ready to hack! David has also just finished a lovely family vacation (to Zion and Bryce National Parks (YAPC::15 attendees with wheels should take note!)).</p>\n\n<p>We really want to thank the community for this opportunity to make Perl better!</p>\n';
+    }
+    catch(e) {
+        var error = context.set_error(e, output);
+        throw(error);
+    }
+
+    return output;
+}
+
 Jemplate.templateMap['y6ut.html'] = function(context) {
     if (! context) throw('Jemplate function called without context\n');
     var stash = context.stash;
