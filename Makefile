@@ -22,6 +22,8 @@ help:
 	@echo '    build        - Rebuild website'
 	@echo '    clean        - Delete generated content'
 	@echo ''
+	@echo '    sub-status   - Check subrepo/branch statuses'
+	@echo ''
 
 update: $(SUBDIRS)
 
@@ -64,3 +66,11 @@ $(HTMLDIR) js:
 	mkdir -p $@
 
 force:
+
+sub-status:
+	@for d in $(TEMPDIR)/*; do \
+	  [ -d $$d/.git ] && \
+	  echo "== $$d ==" && \
+	  (cd $$d; git status; echo); \
+	  true; \
+	done
