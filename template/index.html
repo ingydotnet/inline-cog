@@ -33,7 +33,7 @@
     <div class="blog-masthead">
       <div class="container">
         <nav class="blog-nav">
-          <a class="blog-nav-item active" href="#">Home</a>
+          <a class="blog-nav-item active" href="#" onclick="Jemplate.process('y5yq.html', {}, jQuery('.blog-main')[0])">Home</a>
 <!--
           <a class="blog-nav-item" href="#">New features</a>
           <a class="blog-nav-item" href="#">Press</a>
@@ -57,7 +57,7 @@
 
           <div class="blog-post">
             <h2 class="blog-post-title">Inline Grant Accepted</h2>
-            <p class="blog-post-meta">October 20, 2014 by <a href="#">Ingy and David</a></p>
+            <p class="blog-post-meta">October 20, 2014 by <a href="#" onclick="Jemplate.process('y6ut.html', {}, jQuery('.blog-main')[0])">Ingy and David</a></p>
 [% INCLUDE 'inline-grant-accepted.html' %]
           </div>
 <!--
@@ -128,5 +128,10 @@
     <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- Cog JS
+    ================================================== -->
+    <script src="js/all.js"></script>
+
   </body>
 </html>
