@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>The TPF Inline Grant Info Site</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="blog.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href="#" onclick="Jemplate.process('y5yq.html', {}, jQuery('.blog-main')[0])">Home</a>
+<!--
+          <a class="blog-nav-item" href="#">New features</a>
+          <a class="blog-nav-item" href="#">Press</a>
+          <a class="blog-nav-item" href="#">New hires</a>
+          <a class="blog-nav-item" href="#">About</a>
+-->
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title">The TPF Inline Grant Info Site</h1>
+        <p class="lead blog-description">Up to date information on The Perl Foundation's 2014 grant for Inline.pm.</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          <div class="blog-post">
+<!-- = Inline Grant Accepted -->
+
+<p>(or <strong>How I Learned to Stop Worrying and Love The Perl</strong>)</p>
+
+<p>Last week I returned from 3 weeks of adventure in Berlin and Netherland. Funny story… the night I arrived at Liz and Wendy&#39;s place, I was made aware of 2 things:</p>
+
+<ul>
+<li>Liz is on the TPF grant board</li>
+<li>She had a surprise for me, but couldn&#39;t tell me until midnight :)</li>
+</ul>
+
+<p>Spoiler: <a href="http://news.perlfoundation.org/2014/09/grant-proposal-inlinecpp-modul.html">The Inline Grant</a> was approved!</p>
+
+<p>The following evening, I attended the amsterdamx.pm (expats) at Booking.com++ HQ, and upon entering the meeting room, was asked by SawyerX if I could give a talk since ribasushi was stuck in traffic. Huh? WTF? Definitely! :) In the kind of coincidence that only happens regularly in the world of Perl, Karen Pauley happened to be there as well, not to mention Stevan, Jarrko and Dan Kogai! I rambled on about a dozen things that were currently loaded into ingy-RAM, but held off on talking about the grant as it hadn&#39;t been made public just yet.</p>
+
+<p>7 days to the minute later I gave a talk at amsterdam.pm and the main subject was the Inline grant. Instead of a talk, I gave a &quot;listen&quot;! I asked everyone there how they would go about actually implementing the grant solution. I got a lot of ideas, and since then I think I&#39;ve figured it out. Stay tuned…</p>
+
+<h2>Welcome to the Inline Grant blog!</h2>
+
+<p>I think this is the first TPF grant to be given to a pair of pair programmers! David and I want to make things as open as we can, so we plan to give weekly updates in addition to the TPF monthly status updates.</p>
+
+<p>Today (October 20th) marks the start of work in earnest on the grant. The delay is due to my unexpected but most fruitful trip to Europe. I&#39;m dejetlagged and ready to hack! David has also just finished a lovely family vacation (to Zion and Bryce National Parks (YAPC::15 attendees with wheels should take note!)).</p>
+
+<p>We really want to thank the community for this opportunity to make Perl better!</p>
+          </div>
+<!--
+          <div class="blog-post">
+            <h2 class="blog-post-title">Another blog post</h2>
+            <p class="blog-post-meta">December 23, 2013 by <a href="#">Jacob</a></p>
+
+            <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
+            <blockquote>
+              <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+            </blockquote>
+            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+          </div>
+-->
+
+<!--
+          <ul class="pager">
+            <li><a href="#">Previous</a></li>
+            <li><a href="#">Next</a></li>
+          </ul>
+-->
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About</h4>
+            <p>This site has the latest info about the progress of the TPF grant for Inline.pm</p>
+          </div>
+          <div class="sidebar-module">
+            <h4>Archives</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">October 2014</a></li>
+            </ol>
+          </div>
+<!--
+          <div class="sidebar-module">
+            <h4>Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">GitHub</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Facebook</a></li>
+            </ol>
+          </div>
+-->
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+<!--
+    <div class="blog-footer">
+      <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </div>
+-->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- Cog JS
+    ================================================== -->
+    <script src="js/all.js"></script>
+
+  </body>
+</html>
