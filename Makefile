@@ -18,16 +18,16 @@ default: help
 help:
 	@echo 'Makefile targets:'
 	@echo ''
-	@echo '    update       - Sync for build'
+	@echo '    sub-dirs     - Clone branches into subdirs'
 	@echo '    build        - Rebuild website'
 	@echo '    clean        - Delete generated content'
 	@echo ''
 	@echo '    sub-status   - Check subrepo/branch statuses'
 	@echo ''
 
-update: $(SUBDIRS)
+sub-dirs: $(SUBDIRS)
 
-build: update $(SITE_INDEX) $(SITE_JS)
+build: sub-dirs $(SITE_INDEX) page/v3e7.html $(SITE_JS)
 
 clean purge:
 	rm -fr $(TEMPDIR)
@@ -38,12 +38,22 @@ $(SUBDIRS):
 	  $(REPO_URL) \
 	  $(TEMPDIR)/$(@:$(TEMPDIR)/%=%)
 
+page/v3e7.html: page pages
+	tt-render \
+	  --path="$(BUILD_ROOT)/template:$(HTMLDIR)" \
+	  --data=$(BUILD_ROOT)/config.yaml \
+	  --post-chomp v3e7.html \
+	  > $@
+
+pages: $(HTMLDIR)
+	swim --to=html $(COG_ROOT)/node/v3e7.cog \
+	  > $(HTMLDIR)/inline-module-spec.html
+
 posts: $(HTMLDIR)
 	swim --to=html $(COG_ROOT)/node/y5yq.cog \
 	  > $(HTMLDIR)/inline-grant-accepted.html
-
-template:
-	mkdir $@
+	swim --to=html $(COG_ROOT)/node/y5yq.cog \
+	  > $(HTMLDIR)/inline-grant-accepted.html
 
 $(SITE_INDEX): posts
 	tt-render \
@@ -62,10 +72,11 @@ $(TEMPDIR)/jemplates: force
 	  swim --to=html $(COG_ROOT)/node/$$j.cog > $@/$$j.html; \
 	); done
 
-$(HTMLDIR) js:
+$(HTMLDIR) js template page:
 	mkdir -p $@
 
 force:
+	@# no-op
 
 sub-status:
 	@for d in $(TEMPDIR)/*; do \
