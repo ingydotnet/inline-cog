@@ -228,3 +228,13 @@ points in time:
 
 Our first task is to prototype this setup using a new toy module:
 `Acme::Math::XS`. Then we adjust the spec based on our findings.
+
+== Implementation Notes
+
+* Extension modules made with Inline.pm do NOT have a dependency on Inline.
+
+  In fact, they have no additional dependencies introduced by Inline.
+
+* At least to start, all the new code will be distributed under `Inline::Module`.
+
+  Later the code will likely be merged into Inline.
