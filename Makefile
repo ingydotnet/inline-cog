@@ -1,7 +1,7 @@
 .PHONY: doc test
 
-TEMPDIR    := tmp
-HTMLDIR    := tmp/html
+TEMPDIR    := branch
+HTMLDIR    := $(TEMPDIR)/html
 BRANCHES   := bootstrap build cog cogdb gh-pages
 SUBDIRS    := $(BRANCHES:%=$(TEMPDIR)/%)
 REPO_URL   := git@github.com:ingydotnet/inline-cog
