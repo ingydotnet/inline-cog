@@ -50,8 +50,8 @@ pages: $(HTMLDIR)
 	  > $(HTMLDIR)/inline-module-spec.html
 
 posts: $(HTMLDIR)
-	swim --to=html $(COG_ROOT)/node/y5yq.cog \
-	  > $(HTMLDIR)/inline-grant-accepted.html
+	swim --to=html $(COG_ROOT)/node/se9g.cog \
+	  > $(HTMLDIR)/inline-grant-weekly-report-1.html
 	swim --to=html $(COG_ROOT)/node/y5yq.cog \
 	  > $(HTMLDIR)/inline-grant-accepted.html
 
