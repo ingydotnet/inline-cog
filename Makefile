@@ -13,10 +13,6 @@ JEMPLATES  := y6ut y5yq
 COG_ROOT   := $(TEMPDIR)/cog
 BUILD_ROOT := $(TEMPDIR)/build
 PERMANODES := v3e7 se9g y5yq
-PERMAPAGES := \
-	inline-module-spec \
-	inline-grant-weekly-report-1 \
-	inline-grant-accepted \
 
 default: help
 
@@ -32,7 +28,7 @@ help:
 
 sub-dirs: $(SUBDIRS)
 
-build: sub-dirs $(SITE_INDEX) $(PERMANODES) $(PERMAPAGES) $(SITE_JS)
+build: sub-dirs $(SITE_INDEX) $(PERMANODES) permapages $(SITE_JS)
 
 clean purge:
 	rm -fr $(TEMPDIR)
@@ -57,13 +53,10 @@ $(PERMANODES): node nodes
 	  --post-chomp $@.html \
 	  > $</$@.html
 
-$(PERMAPAGES): page nodes
-	tt-render \
-	  --path="$(BUILD_ROOT)/template:$(HTMLDIR)" \
-	  --data=$(BUILD_ROOT)/config.yaml \
-	  --post-chomp $@.html \
-	  > $</$@.html
-
+permapages: page nodes
+	ln -fs ../node/v3e7.html page/inline-module-spec.html
+	ln -fs ../node/se9g.html page/inline-grant-weekly-report-1.html
+	ln -fs ../node/y5yq.html page/inline-grant-accepted.html
 
 nodes: $(HTMLDIR)
 	swim --to=html $(COG_ROOT)/node/v3e7.cog \
