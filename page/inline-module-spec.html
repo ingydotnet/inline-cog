@@ -1,1 +1,338 @@
-../node/v3e7.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>The TPF Inline Grant Info Site</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="blog.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href="#" onclick="Jemplate.process('y5yq.html', {}, jQuery('.blog-main')[0])">Home</a>
+<!--
+          <a class="blog-nav-item" href="#">New features</a>
+          <a class="blog-nav-item" href="#">Press</a>
+          <a class="blog-nav-item" href="#">New hires</a>
+          <a class="blog-nav-item" href="#">About</a>
+-->
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title">The TPF Inline Grant Info Site</h1>
+        <p class="lead blog-description">Up to date information on The Perl Foundation's 2014 grant for Inline.pm.</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          <div class="blog-post">
+<h1>Inline Module Spec</h1>
+
+<p>How Inline Can be used in place of XS for CPAN</p>
+
+<h1>Overview</h1>
+
+<p>This is a specification of how Inline.pm will be made to be the easy (and hopefully preferred) method of writing &quot;extension&quot; (&quot;XS&quot;) modules for Perl 5.</p>
+
+<p>People who extend Perl 5 code with <code>Inline</code>, <code>Inline::C</code> and <code>Inline::CPP</code>, should be able to use the same techniques to ship code as modules for CPAN, with as little extra effort as possible.</p>
+
+<p>In October 2014, The Perl Foundation (TPF) accepted a grant from CPAN authors Ingy döt Net and David Oswald, to do just that.</p>
+
+<h1>Basics</h1>
+
+<p>Here is a trivial Perl program/script that uses Inline:</p>
+
+<pre><code>use Inline C =&gt; &quot;int add(int a, int b) &#123;return a + b;&#125;
+print &quot;2 + 2 = &quot;, add(2, 2), &quot;\n&quot;;
+</code></pre>
+
+<p>It should be possible to turn that into an <em>extension</em> module that looks like this:</p>
+
+<pre><code>package Acme::Math::XS;
+use strict;
+use warnings;
+our $VERSION = &#39;0.0.1&#39;;
+use Exporter &#39;import&#39;;
+our @EXPORT = qw( add );
+use Inline C =&gt; &quot;int add(int a, int b) &#123;return a + b;&#125;
+1;
+</code></pre>
+
+<p>Usage:</p>
+
+<pre><code>use Acme::Math::XS;
+print &quot;2 + 2 = &quot;, add(2, 2), &quot;\n&quot;;
+</code></pre>
+
+<p>We a CPAN user installs this, the result should be very close to the same as if they had used XS.</p>
+
+<p>Currently this doesn&#39;t work well, because the Inline builds (compiles) things on the first runtime, and it doesn&#39;t save the compilation units into the standard (CPAN install) places. We want to let Inline know that it is building for permanent installation, and also we want to trigger it during the normal <code>make</code> phase.</p>
+
+<h1>Environmental Concerns</h1>
+
+<p>Inline-style modules have a few concerns that must be addressed by this project. In Perl, TMTOWTDI! Inline modules must work under different module distribution frameworks, various extension coding styles, must support multiple extension languages, and must DTRT in several different runtime scenarios.</p>
+
+<h2>Module Building Environments</h2>
+
+<p>Inline modules will be made to work easily under these popular setups:</p>
+
+<dl>
+<dt><code>ExtUtils::MakeMaker</code></dt>
+<dd><br/>
+<p>ie the old style <code>Makefile.PL</code> setup.</p>
+
+<dd>
+<dt><code>Module::Build</code></dt>
+<dd><br/>
+<p>The pure Perl way to distribute modules.</p>
+
+<dd>
+<dt><code>Module::Install</code></dt>
+<dd><br/>
+<p>This style is somewhat dated, but possibly the easiest to support.</p>
+
+<dd>
+<dt><code>Dist::Zilla</code></dt>
+<dd><br/>
+<p>The popular new way.</p>
+
+<dd>
+<dt><code>Zilla::Dist</code></dt>
+<dd><br/>
+<p>Ingy&#39;s new abstraction over <code>Dist::Zilla</code>.</p>
+
+<dd>
+<dt><code>Distar</code></dt>
+<dd><br/>
+<p>mst&#39;s distribution style.</p>
+
+<dd>
+</dl>
+
+<h2>Extension Styles</h2>
+
+<p>When people write XS module, there are a few different common use cases.</p>
+
+<dl>
+<dt>True <em>inline</em> functional</dt>
+<dd><br/>
+<p>This is when you just want some hot subroutines to be written in a faster language for performance gains. The C code can stay inside the (mostly) Perl module.</p>
+
+<dd>
+<dt>All (or mostly) C code</dt>
+<dd><br/>
+<p>Some XS modules are almost entirely C or C++ code made to work in Perl. In this case the code almost certainly lives in external files (not Inline). <code>Inline.pm</code> can still be used to make life easier.</p>
+
+<dd>
+<dt>Library binding modules</dt>
+<dd><br/>
+<p>Often XS is used to bind a popular C library to Perl. Like <code>YAML::XS</code> binding <code>libyaml</code> to Perl.</p>
+
+<dd>
+<dt>Mix and match</dt>
+<dd><br/>
+<p>The above styles can be used in any combination.</p>
+
+<dd>
+</dl>
+
+<h2>Extension Languages</h2>
+
+<p>The grant calls calls for support of C and C++, and certainly those are the most common ways to do this kind of thing. However, the Inline framework will be setup in such a way that it will be (at least theoretically) possible to use and Inline language support module (ILSM), given that the author adds the new API parts.</p>
+
+<h2>Runtime Scenarios</h2>
+
+<p>When developing Perl modules (and running their tests) there are several distinct runtime scenarios, and Inline modules must Do The Right Things at the right times.</p>
+
+<dl>
+<dt><code>prove -lbv t</code></dt>
+<dd><br/>
+<p>ie basic development testing. C/C++ code must compile when changed and prior to being run. This should not require the developer to think about it.</p>
+<p>Note: this should be a clear win over XS, where <code>perl Makefile.PL &amp;&amp; make</code> must be done after every XS change.</p>
+
+<dd>
+<dt>Distribution testing</dt>
+<dd><br/>
+<p>The final tests run in a simulated install environment before creating a distribution tarball to CPAN. ie <code>dzil test</code>.</p>
+
+<dd>
+<dt>Pre-dist-build</dt>
+<dd><br/>
+<p>Certain things must happen to the code to prepare it for distribution.</p>
+
+<dd>
+<dt>User side build</dt>
+<dd><br/>
+<p>When the user who is installing the distribution, executes the <em>build</em> phase, the correct things must happen so that the proper things get into blib after being compiled to work on that particular machine/environment.</p>
+
+<dd>
+<dt>User side testing</dt>
+<dd><br/>
+<p>Before installation, the code is tested and must behave correctly.</p>
+
+<dd>
+<dt>Final end-user runtime</dt>
+<dd><br/>
+<p>aka Production. The code must run indistinguishable from an XS module.</p>
+
+<dd>
+</dl>
+
+<p>This might seems like a lot of scenarios with some of them being duplicates, but we really think that each of them are slightly different. They should all at least be considered and tested.</p>
+
+<h1>Inline::Module Implementation</h1>
+
+<p>The rest of the spec talks about what Inline must do to accomplish these tasks. This is very speculative at this point, and is expected to change during early development.</p>
+
+<h2>Author-side Responsibilities</h2>
+
+<p>A person who has used Inline::C and now wants to ship it to CPAN as an <em>XS</em> module has to change a few things. Let&#39;s continue with the <code>Acme::Math::XS</code> example.</p>
+
+<p>The first thing to do is change <code>use Inline</code> to <code>use Acme::Math::XS::Inline</code>. In other words, they change this:</p>
+
+<pre><code>use Inline C =&gt; …
+</code></pre>
+
+<p>to this:</p>
+
+<pre><code>use Acme::Math::XS::Inline C =&gt; …
+</code></pre>
+
+<p>The author will ship <code>Acme::Math::XS::Inline</code> as part of the distribution, but this module will not be hand-written by them. This is how the magic happens.</p>
+
+<p>The author needs to run this command one time:</p>
+
+<pre><code>perl-inline-module
+</code></pre>
+
+<p>This will create a file: <code>lib/Acme/Math/XS/Inline.pm</code>. This module is smart enough to keep everything during the development phase up to date.</p>
+
+<p>The author must also add one or two lines to the dist framework control file (ie <code>Makefile.PL</code>, <code>Build.pl</code>, <code>dist.ini</code>, <code>Meta</code>, etc) that tells the build system that special things must happen at special times. This line will differ per dist system, but effectively will look like:</p>
+
+<pre><code>perl-inline-module
+</code></pre>
+
+<p>After that, everything should just work. The author can code, change and ship C or C++ code in the same manner as a pure Perl module.</p>
+
+<h2>How it Works</h2>
+
+<p>The basic (strawman) idea is this: the special module called <code>Acme::Math::XS::Inline</code> has 3 completely different forms at three different points in time:</p>
+
+<dl>
+<dt>Development Form (<code>lib/Foo/Inline.pm</code>)</dt>
+<dd><br/>
+<p>When you run <code>perl-inline-module</code>, it loads all the modules under lib, and intercepts the <code>use Foo::Inline</code> statements, and generates the <code>lib/Foo/Inline.pm</code> modules. This ends up being a proxy module to <code>Inline.pm</code> but with some module configuration changes. ie Stuff gets built automatically into <code>blib</code> (and rebuilt when C code changes).</p>
+
+<dd>
+<dt>User Build Form (<code>inc/Foo/Inline.pm</code>)</dt>
+<dd><br/>
+<p>This is a special &quot;build&quot; time module that runs during installation, and <em>shadows</em> the real (to be installed) module. It builds the extension libary into blib.</p>
+
+<dd>
+<dt>Production/Installed Form (<code>Foo-0.0.1/lib/Foo/Inline.pm</code>)</dt>
+<dd><br/>
+<p>This little shim is what gets installed during a <code>make install</code>. It is just a little wrapper around <code>DynaLoader</code>. It never builds code; just loads installed code.</p>
+
+<dd>
+</dl>
+
+<h1>Inline::Module Development Strategy</h1>
+
+<p>Our first task is to prototype this setup using a new toy module: <code>Acme::Math::XS</code>. Then we adjust the spec based on our findings.</p>
+
+<h2>Implementation Notes</h2>
+
+<ul>
+<li>Extension modules made with Inline.pm do NOT have a dependency on Inline.
+<p>In fact, they have no additional dependencies introduced by Inline.</p>
+
+</li>
+<li>At least to start, all the new code will be distributed under <code>Inline::Module</code>.
+<p>Later the code will likely be merged into Inline.</p>
+
+</li>
+</ul>
+          </div>
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About</h4>
+            <p>This site has the latest info about the progress of the TPF grant for Inline.pm</p>
+          </div>
+          <div class="sidebar-module">
+            <h4>Archives</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">October 2014</a></li>
+            </ol>
+          </div>
+<!--
+          <div class="sidebar-module">
+            <h4>Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">GitHub</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Facebook</a></li>
+            </ol>
+          </div>
+-->
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+<!--
+    <div class="blog-footer">
+      <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </div>
+-->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- Cog JS
+    ================================================== -->
+    <script src="js/all.js"></script>
+
+  </body>
+</html>

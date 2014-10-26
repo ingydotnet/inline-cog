@@ -53,10 +53,10 @@ $(PERMANODES): node nodes
 	  --post-chomp $@.html \
 	  > $</$@.html
 
-permapages: page nodes
-	ln -fs ../node/v3e7.html page/inline-module-spec.html
-	ln -fs ../node/se9g.html page/inline-grant-weekly-report-1.html
-	ln -fs ../node/y5yq.html page/inline-grant-accepted.html
+permapages: page $(PERMANODES)
+	cp node/v3e7.html page/inline-module-spec.html
+	cp node/se9g.html page/inline-grant-weekly-report-1.html
+	cp node/y5yq.html page/inline-grant-accepted.html
 
 nodes: $(HTMLDIR)
 	swim --to=html $(COG_ROOT)/node/v3e7.cog \
