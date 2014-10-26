@@ -12,6 +12,11 @@ JEMPLATES  := y6ut y5yq
 
 COG_ROOT   := $(TEMPDIR)/cog
 BUILD_ROOT := $(TEMPDIR)/build
+PERMANODES := v3e7 se9g y5yq
+PERMAPAGES := \
+	inline-module-spec \
+	inline-grant-weekly-report-1 \
+	inline-grant-accepted \
 
 default: help
 
@@ -27,7 +32,7 @@ help:
 
 sub-dirs: $(SUBDIRS)
 
-build: sub-dirs $(SITE_INDEX) page/v3e7.html $(SITE_JS)
+build: sub-dirs $(SITE_INDEX) $(PERMANODES) $(PERMAPAGES) $(SITE_JS)
 
 clean purge:
 	rm -fr $(TEMPDIR)
@@ -38,29 +43,38 @@ $(SUBDIRS):
 	  $(REPO_URL) \
 	  $(TEMPDIR)/$(@:$(TEMPDIR)/%=%)
 
-page/v3e7.html: page pages
-	tt-render \
-	  --path="$(BUILD_ROOT)/template:$(HTMLDIR)" \
-	  --data=$(BUILD_ROOT)/config.yaml \
-	  --post-chomp v3e7.html \
-	  > $@
-
-pages: $(HTMLDIR)
-	swim --to=html $(COG_ROOT)/node/v3e7.cog \
-	  > $(HTMLDIR)/inline-module-spec.html
-
-posts: $(HTMLDIR)
-	swim --to=html $(COG_ROOT)/node/se9g.cog \
-	  > $(HTMLDIR)/inline-grant-weekly-report-1.html
-	swim --to=html $(COG_ROOT)/node/y5yq.cog \
-	  > $(HTMLDIR)/inline-grant-accepted.html
-
-$(SITE_INDEX): posts
+$(SITE_INDEX): nodes
 	tt-render \
 	  --path="$(BUILD_ROOT)/template:$(HTMLDIR)" \
 	  --data=$(BUILD_ROOT)/config.yaml \
 	  --post-chomp index.html \
 	  > $@
+
+$(PERMANODES): node nodes
+	tt-render \
+	  --path="$(BUILD_ROOT)/template:$(HTMLDIR)" \
+	  --data=$(BUILD_ROOT)/config.yaml \
+	  --post-chomp $@.html \
+	  > $</$@.html
+
+$(PERMAPAGES): page nodes
+	tt-render \
+	  --path="$(BUILD_ROOT)/template:$(HTMLDIR)" \
+	  --data=$(BUILD_ROOT)/config.yaml \
+	  --post-chomp $@.html \
+	  > $</$@.html
+
+
+nodes: $(HTMLDIR)
+	swim --to=html $(COG_ROOT)/node/v3e7.cog \
+	  | tee $(HTMLDIR)/v3e7.html \
+	  > $(HTMLDIR)/inline-module-spec.html
+	swim --to=html $(COG_ROOT)/node/se9g.cog \
+	  | tee $(HTMLDIR)/se9g.html \
+	  > $(HTMLDIR)/inline-grant-weekly-report-1.html
+	swim --to=html $(COG_ROOT)/node/y5yq.cog \
+	  | tee $(HTMLDIR)/y5yq.html \
+	  > $(HTMLDIR)/inline-grant-accepted.html
 
 $(SITE_JS): js $(TEMPDIR)/jemplates force
 	jemplate --runtime --compile $(TEMPDIR)/jemplates > $@
@@ -72,7 +86,7 @@ $(TEMPDIR)/jemplates: force
 	  swim --to=html $(COG_ROOT)/node/$$j.cog > $@/$$j.html; \
 	); done
 
-$(HTMLDIR) js template page:
+$(HTMLDIR) js template node page:
 	mkdir -p $@
 
 force:

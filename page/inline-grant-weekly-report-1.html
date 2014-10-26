@@ -1,0 +1,95 @@
+<!-- = Inline Grant Weekly Report #1 -->
+
+<p>We (David and Ingy) had a productive week bootstrapping the <strong>Inline-for-XS-Modules</strong> project. Our primary optimization flags are:</p>
+
+<pre><code>-Opublic
+-Oagile
+-Ocreative
+-Ofun
+</code></pre>
+
+<p>Here are some highlights:</p>
+
+<ul>
+<li>All work being done publicly:
+<ul>
+<li>David and Ingy code in remote <strong>PairUp™</strong> session (tmux)</li>
+<li>All realtime communication in <strong>IRC</strong> (irc.perl.org#inline)</li>
+<li>Tmux to be <strong>termcast</strong>ed soon (live terminal in a browser)</li>
+<li>If you are interested, come join us!</li>
+</ul>
+
+</li>
+<li>Figured out a decent <strong>Inline Module API</strong> strategy
+<ul>
+<li>Authors do 3 simple new things to ship Inline code to CPAN</li>
+<li><strong>No end-user dependency</strong> on Inline for these modules</li>
+<li>End result is essentially same as hand written XS</li>
+</ul>
+
+</li>
+<li>Plans to support:
+<ul>
+<li>5-6 build systems: ie <code>Dist::Zilla</code>, <code>Module::Build</code>, etc</li>
+<li>Many Inline languages (other than C/C++ <em>might</em> work)</li>
+<li>Different extension module use cases: inline/external/libraries</li>
+</ul>
+
+</li>
+<li>Created specification document: <a href="http://inline.ouistreet.com/node/v3e7.html">http://inline.ouistreet.com/node/v3e7.html</a></li>
+<li>Released two new CPAN modules:
+<ul>
+<li><strong>Inline::Module</strong> (The majority of the grant coding)</li>
+<li><strong>Acme::Math::XS</strong> (first test module using Inline::C)</li>
+</ul>
+
+</li>
+<li>Created a <strong>new blog site</strong> to document the Inline Grant Project
+<ul>
+<li><a href="http://inline.ouistreet.com/">http://inline.ouistreet.com/</a></li>
+<li>A new site using some of our other loved technologies: Cog, Coffee, make, Swim, Jemplate, gh-pages, BootStrap</li>
+</ul>
+
+</li>
+</ul>
+
+<p>It is our hope to finish out most of the work in the next 2 weeks, and then work on bug reports after that. We plan to keep putting out blog posts/reports for at least a couple months after the grant is complete. We believe this work will make Extension Module Authoring a lot more accessible, and we want to keep the energy flowing.</p>
+
+<p>Here&#39;s a tiny example of how to make an Inline Extension Module. Take this one-liner:</p>
+
+<pre><code>perl -E &#39;use Inline C=&gt;&quot;int add(int a, int b)&#123;return a+b;&#125;&quot;;say add(2,2)&#39;
+</code></pre>
+
+<p>Turn it into this module:</p>
+
+<pre><code>package Acme::Math::XS;
+our $VERSION = &#39;0.0.1&#39;;
+use Acme::Math::XS::Inline C =&gt; &quot;int add(int a, int b) &#123;return a + b;&#125;&quot;;
+</code></pre>
+
+<p>Install Inline::Module:</p>
+
+<pre><code>cpanm Inline::Module
+</code></pre>
+
+<p>Run this command line:</p>
+
+<pre><code>&gt; perl-inline-module create Acme::Math::XS::Inline
+</code></pre>
+
+<p>Add this line to your <code>dist.ini</code>:</p>
+
+<pre><code>[InlineModule]
+</code></pre>
+
+<p>Ship it:</p>
+
+<pre><code>dzil release
+</code></pre>
+
+<p>One advantage we&#39;ve seen so far is that simple developer testing, just works:</p>
+
+<pre><code>prove -l t/
+</code></pre>
+
+<p>There&#39;s no need to run <code>make</code> to build the C/C++/XS in <code>blib</code> and then add <code>-b</code> to the <code>prove</code> flags, because this is <strong>Inline</strong>!</p>
