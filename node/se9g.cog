@@ -1,0 +1,73 @@
+# = Inline Grant Weekly Report #1
+
+We (David and Ingy) had a productive week bootstrapping the
+*Inline-for-XS-Modules* project. Our primary optimization flags are:
+
+  -Opublic
+  -Oagile
+  -Ocreative
+  -Ofun
+
+Here are some highlights:
+
+* All work being done publicly:
+  * David and Ingy code in remote *PairUp™* session (tmux)
+  * All realtime communication in *IRC* (irc.perl.org#inline)
+  * Tmux to be *termcast*ed soon (live terminal in a browser)
+  * If you are interested, come join us!
+* Figured out a decent *Inline Module API* strategy
+  * Authors do 3 simple new things to ship Inline code to CPAN
+  * *No end-user dependency* on Inline for these modules
+  * End result is essentially same as hand written XS
+* Plans to support:
+  * 5-6 build systems: ie `Dist::Zilla`, `Module::Build`, etc
+  * Many Inline languages (other than C\/C++ /might/ work)
+  * Different extension module use cases: inline\/external\/libraries
+* Created specification document: http://inline.ouistreet.com/node/v3e7.html
+* Released two new CPAN modules:
+  * *Inline::Module* (The majority of the grant coding)
+  * *Acme::Math::XS* (first test module using Inline::C)
+* Created a *new blog site* to document the Inline Grant Project
+  * http://inline.ouistreet.com/
+  * A new site using some of our other loved technologies:
+    Cog, Coffee, make, Swim, Jemplate, gh-pages, BootStrap
+
+It is our hope to finish out most of the work in the next 2 weeks, and then
+work on bug reports after that. We plan to keep putting out blog posts/reports
+for at least a couple months after the grant is complete. We believe this work
+will make Extension Module Authoring a lot more accessible, and we want to
+keep the energy flowing.
+
+Here's a tiny example of how to make an Inline Extension Module. Take this
+one-liner:
+
+  perl -E 'use Inline C=>"int add(int a, int b){return a+b;}";say add(2,2)'
+
+Turn it into this module:
+
+  package Acme::Math::XS;
+  our $VERSION = '0.0.1';
+  use Acme::Math::XS::Inline C => "int add(int a, int b) {return a + b;}";
+
+Install Inline::Module:
+
+  cpanm Inline::Module
+
+Run this command line:
+
+  > perl-inline-module create Acme::Math::XS::Inline
+
+Add this line to your `dist.ini`:
+
+  [InlineModule]
+
+Ship it:
+
+  dzil release
+
+One advantage we've seen so far is that simple developer testing, just works:
+
+  prove -l t/
+
+There's no need to run `make` to build the C\/C++\/XS in `blib` and then add
+`-b` to the `prove` flags, because this is *Inline*!
