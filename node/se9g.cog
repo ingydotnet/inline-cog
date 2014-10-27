@@ -1,4 +1,6 @@
-# = Inline Grant Weekly Report #1
+Name: Inline Grant Weekly Report #1
+Type: post
+Date: October 25, 2014
 
 We (David and Ingy) had a productive week bootstrapping the
 *Inline-for-XS-Modules* project. Our primary optimization flags are:
