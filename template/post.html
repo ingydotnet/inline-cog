@@ -1,0 +1,10 @@
+<div class="blog-post">
+  <h2 class="blog-post-title">[% post_.title %]</h2>
+  <p class="blog-post-meta">
+    [% post_.date %]
+    by
+    <a href="page/ingy-and-david-bio.html">Ingy and David</a>
+  </p>
+  [% t = post_.cogid _ '.html'; INCLUDE $t %]
+</div>
+<hr />

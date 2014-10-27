@@ -1,0 +1,18 @@
+#!/usr/bin/env perl
+
+use strict;
+use YAML::XS;
+use JSON::XS;
+use IO::All;
+
+my $config_file = 'branch/build/config.yaml';
+my $yaml_dir = 'tmp/yaml';
+my $data = YAML::XS::LoadFile($config_file);
+$data->{nodes} = [];
+
+for my $yaml_file (io->dir($yaml_dir)->all_files) {
+    my $node = YAML::XS::LoadFile("$yaml_file");
+    push @{$data->{nodes}}, $node;
+}
+
+print JSON::XS->new->pretty(1)->encode($data);

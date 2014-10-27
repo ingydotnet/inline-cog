@@ -1,0 +1,12 @@
+#!/usr/bin/env perl
+
+use strict;
+use IO::All;
+
+my $file = shift;
+my $cog = io->file($file);
+
+my $swim = $cog->all;
+$swim =~ s!.*?\n\n!!s or die $swim;
+
+print $swim;

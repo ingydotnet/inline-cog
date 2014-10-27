@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+
+use strict;
+use IO::All;
+use YAML::XS;
+
+my $hash = {};
+my $file = shift;
+
+$file =~ m!.*/(\w+)\.cog$! or die $file;
+$hash->{cogid} = $1;
+
+my $cog = io->file($file)->chomp;
+
+while (my $line = $cog->getline) {
+    my ($key, $value) = split /:\s*/, $line, 2;
+    $key = lc $key;
+    $key = 'title' if $key eq 'name';
+    $hash->{$key} = $value;
+}
+
+if (my $title = $hash->{title}) {
+    my $link = lc $title;
+    $link =~ s![^\w]!-!g;
+    $link =~ s!-+!-!g;
+    $hash->{link} = $link;
+}
+
+$hash->{site_title} = "The TPF Inline Grant Info Site";
+$hash->{heading} = "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.";
+
+print Dump $hash;
