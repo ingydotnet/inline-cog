@@ -6,7 +6,7 @@ compiled Jemplate templates.
 
 AUTHOR - Ingy döt Net <ingy@cpan.org>
 
-Copyright 2006-2014 Ingy döt Net.
+Copyright 2006,2008 Ingy döt Net.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -1907,7 +1907,7 @@ Jemplate.JSON = {
    Template Toolkit. Any changes made to this file will be lost the next
    time the templates are compiled.
 
-   Copyright 2006-2014 - Ingy döt Net - All rights reserved.
+   Copyright 2006-2008 - Ingy döt Net - All rights reserved.
 */
 
 var Jemplate;
@@ -1917,6 +1917,22 @@ if (typeof(exports) == 'object') {
 
 if (typeof(Jemplate) == 'undefined')
     throw('Jemplate.js must be loaded before any Jemplate template files');
+
+Jemplate.templateMap['ecf6.html'] = function(context) {
+    if (! context) throw('Jemplate function called without context\n');
+    var stash = context.stash;
+    var output = '';
+
+    try {
+output += '<p>Name: Inline Grant Weekly Report #2 Type: post Date: November 2, 2014</p>\n\n<p>This week was a little bit slower but we made progress. We released new versions of <code>Acme::Math::XS</code> and created/released <code>Acme::Math::XS::XS</code>. The two modules are the same except the former uses <code>Inline::Module</code> and the latter uses plain old XS. The idea is to get them both working identically so that there is something concrete to compare.</p>\n\n<p>We did a bit of yak shaving early in the week. We wrote our own blog site software that we are growing up organically. We also patched and released <code>Swim.pm</code>, the markup formatter that all our writings are written in. We are trying to balance staying focused on finishing the grant on time, and also spawning as much cool stuff as we can along the way.</p>\n\n<p>Speaking of cool, we do all our work in a shared dev environment called PairUp™. It works wonderfully, but we wanted others to be able to watch along too (televised pair programming). The way to do this is with termcasting which shows the tmux session in a webpage, so anyone can watch along. Combine this with IRC, and it gets awesome. Unfortunately our termcasting setup was failing us. Fortunately we found <code>doy++</code> on IRC, brought him into our pairup, had him fix things (he&#39;s the master of termcasting) and then we got it working. Come by #inline sometime and watch for yourself.</p>\n\n<p>We further honed the Inline::Module dance. I&#39;ll try to explain it. When you create a module like <code>Foo::XS</code>, the <code>lib/Foo/XS.pm</code> module has a line like this:</p>\n\n<pre><code>use Foo::XS::Inline C =&gt; &quot;…&quot;;\n</code></pre>\n\n<p>That means you need a <code>lib/Foo/XS/Inline.pm</code>, and you get that with:</p>\n\n<pre><code>&gt; perl-inline-module create Foo::XS::Inline\n</code></pre>\n\n<p>The new, generated module looks (more or less) like this:</p>\n\n<pre><code>package Foo::XS::Inline;\nuse base &#39;Inline&#39;;\nuse Inline::Module &#39;v1&#39; =&gt; &#39;0.02&#39;;\n</code></pre>\n\n<p>When you run tests, this module uses <code>Inline::C</code> to build the <code>C</code> under <code>blib/</code> like normal XS.</p>\n\n<p>Now, here&#39;s the trick (and we haven&#39;t actually gotten it working yet)… when it&#39;s time build the dist we rearrange things:</p>\n\n<ol>\n<li>The version of <code>::Inline</code> above goes into the <code>inc/</code> directory</li>\n<li>The <code>::Inline</code> under lib becomes a small Dynaloader invoking module\n<ul>\n<li>This is what gets installed user side</li>\n</ul>\n\n</li>\n<li>The Makefile system is tweaked to build the Inline code at <code>make</code> time</li>\n</ol>\n\n<p>We should get this working in the next couple days. Note that the whole point here is to make something that:</p>\n\n<ul>\n<li>Works as good or better than hand-XS</li>\n<li>Is easy to distribute using any popular setup</li>\n<li>Installs stuff identically to XS</li>\n<li>Has <strong>no</strong> user dependencies (including no dep on anything Inline)</li>\n</ul>\n\n<p>In other news, David released <code>Inline::CPP</code> five times and got his cpantester&#39;s PASS rate up to an all-time high of 99.4%.</p>\n';
+    }
+    catch(e) {
+        var error = context.set_error(e, output);
+        throw(error);
+    }
+
+    return output;
+}
 
 Jemplate.templateMap['se9g.html'] = function(context) {
     if (! context) throw('Jemplate function called without context\n');
