@@ -1,0 +1,62 @@
+Name: Inline Grant Weekly Report #2
+Type: post
+Date: November 2, 2014
+
+This week was a little bit slower but we made progress. We released new
+versions of `Acme::Math::XS` and created/released `Acme::Math::XS::XS`. The
+two modules are the same except the former uses `Inline::Module` and the
+latter uses plain old XS. The idea is to get them both working identically so
+that there is something concrete to compare.
+
+We did a bit of yak shaving early in the week. We wrote our own blog site
+software that we are growing up organically. We also patched and released
+`Swim.pm`, the markup formatter that all our writings are written in. We are
+trying to balance staying focused on finishing the grant on time, and also
+spawning as much cool stuff as we can along the way.
+
+Speaking of cool, we do all our work in a shared dev environment called
+PairUp™. It works wonderfully, but we wanted others to be able to watch along
+too (televised pair programming). The way to do this is with termcasting which
+shows the tmux session in a webpage, so anyone can watch along. Combine this
+with IRC, and it gets awesome. Unfortunately our termcasting setup was failing
+us. Fortunately we found `doy++` on IRC, brought him into our pairup, had him
+fix things (he's the master of termcasting) and then we got it working. Come
+by #inline sometime and watch for yourself.
+
+We further honed the Inline::Module dance. I'll try to explain it. When you
+create a module like `Foo::XS`, the `lib/Foo/XS.pm` module has a line like
+this:
+
+  use Foo::XS::Inline C => "…";
+
+That means you need a `lib/Foo/XS/Inline.pm`, and you get that with:
+
+  > perl-inline-module create Foo::XS::Inline
+
+The new, generated module looks (more or less) like this:
+
+  package Foo::XS::Inline;
+  use base 'Inline';
+  use Inline::Module 'v1' => '0.02';
+
+When you run tests, this module uses `Inline::C` to build the `C` under
+`blib/` like normal XS.
+
+Now, here's the trick (and we haven't actually gotten it working yet)… when
+it's time build the dist we rearrange things:
+
++ The version of `::Inline` above goes into the `inc/` directory
++ The `::Inline` under lib becomes a small Dynaloader invoking module
+  * This is what gets installed user side
++ The Makefile system is tweaked to build the Inline code at `make` time
+
+We should get this working in the next couple days. Note that the whole point
+here is to make something that:
+
+* Works as good or better than hand-XS
+* Is easy to distribute using any popular setup
+* Installs stuff identically to XS
+* Has *no* user dependencies (including no dep on anything Inline)
+
+In other news, David released `Inline::CPP` five times and got his
+cpantester's PASS rate up to an all-time high of 99.4%.
