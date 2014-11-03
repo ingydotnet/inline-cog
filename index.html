@@ -49,6 +49,62 @@
       <div class="row">
         <div class="col-sm-8 blog-main">
               <div class="blog-post">
+  <h2 class="blog-post-title">Inline Grant Weekly Report #2</h2>
+  <p class="blog-post-meta">
+    November 2, 2014    by
+    <a href="page/ingy-and-david-bio.html">Ingy and David</a>
+  </p>
+  <p>This week was a little bit slower but we made progress. We released new versions of <code>Acme::Math::XS</code> and created/released <code>Acme::Math::XS::XS</code>. The two modules are the same except the former uses <code>Inline::Module</code> and the latter uses plain old XS. The idea is to get them both working identically so that there is something concrete to compare.</p>
+
+<p>We did a bit of yak shaving early in the week. We wrote our own blog site software that we are growing up organically. We also patched and released <code>Swim.pm</code>, the markup formatter that all our writings are written in. We are trying to balance staying focused on finishing the grant on time, and also spawning as much cool stuff as we can along the way.</p>
+
+<p>Speaking of cool, we do all our work in a shared dev environment called PairUp™. It works wonderfully, but we wanted others to be able to watch along too (televised pair programming). The way to do this is with termcasting which shows the tmux session in a webpage, so anyone can watch along. Combine this with IRC, and it gets awesome. Unfortunately our termcasting setup was failing us. Fortunately we found <code>doy++</code> on IRC, brought him into our pairup, had him fix things (he&#39;s the master of termcasting) and then we got it working. Come by #inline sometime and watch for yourself.</p>
+
+<p>We further honed the Inline::Module dance. I&#39;ll try to explain it. When you create a module like <code>Foo::XS</code>, the <code>lib/Foo/XS.pm</code> module has a line like this:</p>
+
+<pre><code>use Foo::XS::Inline C =&gt; &quot;…&quot;;
+</code></pre>
+
+<p>That means you need a <code>lib/Foo/XS/Inline.pm</code>, and you get that with:</p>
+
+<pre><code>&gt; perl-inline-module create Foo::XS::Inline
+</code></pre>
+
+<p>The new, generated module looks (more or less) like this:</p>
+
+<pre><code>package Foo::XS::Inline;
+use base &#39;Inline&#39;;
+use Inline::Module &#39;v1&#39; =&gt; &#39;0.02&#39;;
+</code></pre>
+
+<p>When you run tests, this module uses <code>Inline::C</code> to build the <code>C</code> under <code>blib/</code> like normal XS.</p>
+
+<p>Now, here&#39;s the trick (and we haven&#39;t actually gotten it working yet)… when it&#39;s time build the dist we rearrange things:</p>
+
+<ol>
+<li>The version of <code>::Inline</code> above goes into the <code>inc/</code> directory</li>
+<li>The <code>::Inline</code> under lib becomes a small Dynaloader invoking module
+<ul>
+<li>This is what gets installed user side</li>
+</ul>
+
+</li>
+<li>The Makefile system is tweaked to build the Inline code at <code>make</code> time</li>
+</ol>
+
+<p>We should get this working in the next couple days. Note that the whole point here is to make something that:</p>
+
+<ul>
+<li>Works as good or better than hand-XS</li>
+<li>Is easy to distribute using any popular setup</li>
+<li>Installs stuff identically to XS</li>
+<li>Has <strong>no</strong> user dependencies (including no dep on anything Inline)</li>
+</ul>
+
+<p>In other news, David released <code>Inline::CPP</code> five times and got his cpantester&#39;s PASS rate up to an all-time high of 99.4%.</p>
+</div>
+<hr />
+                      <div class="blog-post">
   <h2 class="blog-post-title">Inline Grant Weekly Report #1</h2>
   <p class="blog-post-meta">
     October 25, 2014    by
@@ -179,7 +235,7 @@ use Acme::Math::XS::Inline C =&gt; &quot;int add(int a, int b) &#123;return a + 
 <p>We really want to thank the community for this opportunity to make Perl better!</p>
 </div>
 <hr />
-                          </div><!-- /.blog-main -->
+              </div><!-- /.blog-main -->
 <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
   <div class="sidebar-module sidebar-module-inset">
   <h4>About</h4>
