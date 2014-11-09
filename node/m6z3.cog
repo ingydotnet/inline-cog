@@ -2,17 +2,17 @@ Name: Inline Grant Weekly Report #3
 Type: post
 Date: November 9, 2014
 
-David and Ingy try to get the weekly report out by Saturday night each week,
-in order to make the Perl Weekly cut. Last week and this week we failed. Last
-week was due to unexpected visitors and this week Ingy was wiped out after his
-Pittsburgh Perl Workshop talk:
+David and Ingy try to get the weekly report out by Saturday night each week, in
+order to make the Perl Weekly cut. Last week and this week, Saturday drifted
+into Sunday. Last week was due to unexpected visitors and this week Ingy was
+wiped out after his Pittsburgh Perl Workshop talk:
 
 https://www.youtube.com/watch?v=vDRLIjojlhg
 
-We had a couple great days of hacking this week. The goal was to get a fully
-working [Acme::Math::XS], with these properties:
+We had several great days of hacking this week. The goal was to get a fully
+working `Acme::Math::XS`, with these properties:
 
-* Implemented with the new [Inline::Module]
+* Implemented with the new `Inline::Module`
 * Plain old `Makefile.PL`
 * Perl module with C code "Inline"
 * `perl Makefile.PL && make test` works author side
