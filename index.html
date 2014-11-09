@@ -49,6 +49,62 @@
       <div class="row">
         <div class="col-sm-8 blog-main">
               <div class="blog-post">
+  <h2 class="blog-post-title">Inline Grant Weekly Report #3</h2>
+  <p class="blog-post-meta">
+    November 9, 2014    by
+    <a href="page/ingy-and-david-bio.html">Ingy and David</a>
+  </p>
+  <p>David and Ingy try to get the weekly report out by Saturday night each week, in order to make the Perl Weekly cut. Last week and this week we failed. Last week was due to unexpected visitors and this week Ingy was wiped out after his Pittsburgh Perl Workshop talk:</p>
+
+<p><a href="https://www.youtube.com/watch?v=vDRLIjojlhg">https://www.youtube.com/watch?v=vDRLIjojlhg</a></p>
+
+<p>We had a couple great days of hacking this week. The goal was to get a fully working <a href="Acme::Math::XS">Acme::Math::XS</a>, with these properties:</p>
+
+<ul>
+<li>Implemented with the new <a href="Inline::Module">Inline::Module</a></li>
+<li>Plain old <code>Makefile.PL</code></li>
+<li>Perl module with C code &quot;Inline&quot;</li>
+<li><code>perl Makefile.PL &amp;&amp; make test</code> works author side</li>
+<li><code>prove -lv t/</code> works (the same) author side</li>
+<li><code>make dist</code> builds a dist that:
+<ul>
+<li>Includes Inline::Module build support code (in <code>inc/</code>)</li>
+<li>Can build something to install user side, that:
+<ul>
+<li>Looks just like a normal XS install</li>
+<li>Doesn&#39;t need to install Inline</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
+
+<p>This is consistent with what we said we&#39;d do in last week&#39;s report. We got this 90% done, and released a new <code>Acme::Math::XS</code>.</p>
+
+<p>The next steps are:</p>
+
+<ul>
+<li>Finish up <code>Inline::Module</code> good enough for a perfect <code>Acme::Math::XS</code></li>
+<li>Write tests for the various concerns and expectations</li>
+<li>Write up an Inline::Module tutorial</li>
+<li>Port different kinds of existing XS modules to Inline::Module</li>
+<li>Inline::Module support for common dist frameworks:
+<ul>
+<li>Dizt::Zilla</li>
+<li>Module::Build</li>
+<li>etc</li>
+</ul>
+
+</li>
+<li>Start filing bugs and nits as <a href="https://github.com/ingydotnet/inline-module-pm/issues">GitHub issues on Inline::Module</a></li>
+</ul>
+
+<p>After that, the grant goals will be mostly satisfied, and we will finish this one up!</p>
+</div>
+<hr />
+                      <div class="blog-post">
   <h2 class="blog-post-title">Inline Grant Weekly Report #2</h2>
   <p class="blog-post-meta">
     November 2, 2014    by
@@ -235,7 +291,7 @@ use Acme::Math::XS::Inline C =&gt; &quot;int add(int a, int b) &#123;return a + 
 <p>We really want to thank the community for this opportunity to make Perl better!</p>
 </div>
 <hr />
-              </div><!-- /.blog-main -->
+                          </div><!-- /.blog-main -->
 <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
   <div class="sidebar-module sidebar-module-inset">
   <h4>About</h4>

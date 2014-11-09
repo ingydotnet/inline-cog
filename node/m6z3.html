@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+  <title>Inline Grant Weekly Report #3</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/blog.css" rel="stylesheet">
+  <link href="css/cog.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+  <body>
+<div class="blog-masthead">
+  <div class="container">
+    <nav class="blog-nav">
+      <a class="blog-nav-item active" href="/">Home</a>
+<!--
+      <a class="blog-nav-item" href="#">New features</a>
+      <a class="blog-nav-item" href="#">Press</a>
+      <a class="blog-nav-item" href="#">New hires</a>
+      <a class="blog-nav-item" href="#">About</a>
+-->
+    </nav>
+  </div>
+</div>
+    <div class="container">
+<div class="blog-header">
+  <h1 class="blog-title">The TPF Inline Grant Info Site</h1>
+  <p class="lead blog-description">Up to date information on The Perl Foundation's 2014 grant for Inline.pm.</p>
+</div>
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+<div class="blog-post">
+  <h2 class="blog-post-title">Inline Grant Weekly Report #3</h2>
+    <p>David and Ingy try to get the weekly report out by Saturday night each week, in order to make the Perl Weekly cut. Last week and this week we failed. Last week was due to unexpected visitors and this week Ingy was wiped out after his Pittsburgh Perl Workshop talk:</p>
+
+<p><a href="https://www.youtube.com/watch?v=vDRLIjojlhg">https://www.youtube.com/watch?v=vDRLIjojlhg</a></p>
+
+<p>We had a couple great days of hacking this week. The goal was to get a fully working <a href="Acme::Math::XS">Acme::Math::XS</a>, with these properties:</p>
+
+<ul>
+<li>Implemented with the new <a href="Inline::Module">Inline::Module</a></li>
+<li>Plain old <code>Makefile.PL</code></li>
+<li>Perl module with C code &quot;Inline&quot;</li>
+<li><code>perl Makefile.PL &amp;&amp; make test</code> works author side</li>
+<li><code>prove -lv t/</code> works (the same) author side</li>
+<li><code>make dist</code> builds a dist that:
+<ul>
+<li>Includes Inline::Module build support code (in <code>inc/</code>)</li>
+<li>Can build something to install user side, that:
+<ul>
+<li>Looks just like a normal XS install</li>
+<li>Doesn&#39;t need to install Inline</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
+
+<p>This is consistent with what we said we&#39;d do in last week&#39;s report. We got this 90% done, and released a new <code>Acme::Math::XS</code>.</p>
+
+<p>The next steps are:</p>
+
+<ul>
+<li>Finish up <code>Inline::Module</code> good enough for a perfect <code>Acme::Math::XS</code></li>
+<li>Write tests for the various concerns and expectations</li>
+<li>Write up an Inline::Module tutorial</li>
+<li>Port different kinds of existing XS modules to Inline::Module</li>
+<li>Inline::Module support for common dist frameworks:
+<ul>
+<li>Dizt::Zilla</li>
+<li>Module::Build</li>
+<li>etc</li>
+</ul>
+
+</li>
+<li>Start filing bugs and nits as &quot;GitHub issues on Inline::Module&quot; <a href="https://github.com/ingydotnet/inline-module-pm/issues">https://github.com/ingydotnet/inline-module-pm/issues</a></li>
+</ul>
+
+<p>After that, the grant goals will be mostly satisfied, and we will finish this one up!</p>
+</div>
+        </div><!-- /.blog-main -->
+<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p>This site has the latest info about the progress of the TPF grant for Inline.pm</p>
+  </div>
+  <div class="sidebar-module">
+  <h4>Archives</h4>
+  <ol class="list-unstyled">
+    <li><a href="#">October 2014</a></li>
+  </ol>
+  </div>
+<!--
+  <div class="sidebar-module">
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li><a href="#">GitHub</a></li>
+    <li><a href="#">Twitter</a></li>
+    <li><a href="#">Facebook</a></li>
+  </ol>
+  </div>
+-->
+</div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+<!--
+  <div class="blog-footer">
+    <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    <p>
+      <a href="#">Back to top</a>
+    </p>
+  </div>
+-->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- Cog JS
+================================================== -->
+<script src="js/all.js"></script>
+  </body>
+</html>
