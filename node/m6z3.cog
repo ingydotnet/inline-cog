@@ -36,8 +36,7 @@ The next steps are:
   * Dizt::Zilla
   * Module::Build
   * etc
-* Start filing bugs and nits as "GitHub issues on Inline::Module"
-  [https://github.com/ingydotnet/inline-module-pm/issues]
+* Start filing bugs and nits as "GitHub issues on Inline::Module"[https://github.com/ingydotnet/inline-module-pm/issues]
 
 After that, the grant goals will be mostly satisfied, and we will finish this
 one up!
