@@ -1,0 +1,43 @@
+Name: Inline Grant Weekly Report #3
+Type: post
+Date: November 9, 2014
+
+David and Ingy try to get the weekly report out by Saturday night each week,
+in order to make the Perl Weekly cut. Last week and this week we failed. Last
+week was due to unexpected visitors and this week Ingy was wiped out after his
+Pittsburgh Perl Workshop talk:
+
+https://www.youtube.com/watch?v=vDRLIjojlhg
+
+We had a couple great days of hacking this week. The goal was to get a fully
+working [Acme::Math::XS], with these properties:
+
+* Implemented with the new [Inline::Module]
+* Plain old `Makefile.PL`
+* Perl module with C code "Inline"
+* `perl Makefile.PL && make test` works author side
+* `prove -lv t/` works (the same) author side
+* `make dist` builds a dist that:
+  * Includes Inline::Module build support code (in `inc/`)
+  * Can build something to install user side, that:
+    * Looks just like a normal XS install
+    * Doesn't need to install Inline
+
+This is consistent with what we said we'd do in last week's report. We got
+this 90% done, and released a new `Acme::Math::XS`.
+
+The next steps are:
+
+* Finish up `Inline::Module` good enough for a perfect `Acme::Math::XS`
+* Write tests for the various concerns and expectations
+* Write up an Inline::Module tutorial
+* Port different kinds of existing XS modules to Inline::Module
+* Inline::Module support for common dist frameworks:
+  * Dizt::Zilla
+  * Module::Build
+  * etc
+* Start filing bugs and nits as "GitHub issues on Inline::Module"
+  [https://github.com/ingydotnet/inline-module-pm/issues]
+
+After that, the grant goals will be mostly satisfied, and we will finish this
+one up!
