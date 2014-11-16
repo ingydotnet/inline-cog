@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+  <title>Inline Grant Weekly Report #4</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/blog.css" rel="stylesheet">
+  <link href="css/cog.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+  <body>
+<div class="blog-masthead">
+  <div class="container">
+    <nav class="blog-nav">
+      <a class="blog-nav-item active" href="/">Home</a>
+<!--
+      <a class="blog-nav-item" href="#">New features</a>
+      <a class="blog-nav-item" href="#">Press</a>
+      <a class="blog-nav-item" href="#">New hires</a>
+      <a class="blog-nav-item" href="#">About</a>
+-->
+    </nav>
+  </div>
+</div>
+    <div class="container">
+<div class="blog-header">
+  <h1 class="blog-title">The TPF Inline Grant Info Site</h1>
+  <p class="lead blog-description">Up to date information on The Perl Foundation's 2014 grant for Inline.pm.</p>
+</div>
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+<div class="blog-post">
+  <h2 class="blog-post-title">Inline Grant Weekly Report #4</h2>
+    <p>The major events of this week were:</p>
+
+<ul>
+<li>Wrote <a href="Inline::Module::Tutorial">Inline::Module::Tutorial</a></li>
+<li>Added Dist::Zilla support for <a href="Inline::Module">Inline::Module</a></li>
+<li>Added Zilla::Dist support for <a href="Inline::Module">Inline::Module</a></li>
+<li>Released 2 new example modules based on the above:
+<ul>
+<li><a href="Alt::Acme::Math::XS::DistZilla">Alt::Acme::Math::XS::DistZilla</a></li>
+<li><a href="Alt::Acme::Math::XS::ZillaDist">Alt::Acme::Math::XS::ZillaDist</a></li>
+</ul>
+
+</li>
+</ul>
+
+<h2>Inline::Module::Tutorial</h2>
+
+<p>This is a work in progress. It explains how to make an XS module using Inline in very basic, specific terms. It only details what we have implemented so far, although there are stub sections for upcoming things. Please give it a read and let us know what you think (in the form of Issues and/or Pull Requests on <a href="https://github.com/ingydotnet/inline-module-pm">https://github.com/ingydotnet/inline-module-pm</a>).</p>
+
+<h2>Dist::Zilla Support</h2>
+
+<p>This is a fun story.</p>
+
+<p>I(ingy) thought I knew how the Dist::Zilla stuff was going to work… I&#39;d simply add these lines to a <code>dist.ini</code>:</p>
+
+<pre><code>[InlineModule]
+module = Acme::Math::XS
+inline = Acme::Math::XS::Inline
+ilsm = Inline::C
+</code></pre>
+
+<p>then write a <a href="Dist::Zilla::Plugin::InlineModule">Dist::Zilla::Plugin::InlineModule</a> and make it all work. In the end that&#39;s exactly what happened, although the path was bumpier than expected.</p>
+
+<p>I started by strolling over to #distzilla on IRC and asking ether++ a few dzil related questions. Then leont++ jumped in and wanted to know what was going on. I told him a bit and he thought I was getting some things wrong… So I invited him to start coding with me (PairUp style)!</p>
+
+<p>It took us a few minutes to get on the same page, but eventually we did. We got some basics into the plugin but then had to break for other stuff. When I came back, I got ether to PairUp for a while. Pretty soon we had a new module, just barely working well enough to release and then release the Acme module based off of it.</p>
+
+<p>TeamProgramming++! Thanks ether++ and leont++!</p>
+
+<h2>Zilla::Dist Support</h2>
+
+<p>Once we got DZ supported, supporting ZD was trivial. The only difference is where the data goes. In this case it goes in the <code>Meta</code> file (where all the meta data does):</p>
+
+<pre><code>=zild:
+  inline:
+    module: Acme::Math::XS
+    inline: Acme::Math::XS::Inline
+    ilsm: Inline::C
+</code></pre>
+
+<p>Of course, Zilla::Dist uses that info to generate the same <code>dist.ini</code> section above at <code>make release</code> time.</p>
+
+<h2>Talking About My Generation</h2>
+
+<p>It&#39;s a good time to pause, and realize that the whole of programming is pretty much just the <strong>generation</strong> of one thing from another. Programmers might not think about it that way all the time, but I(ngy) tend to <em>only</em> think about it that way.</p>
+
+<p>When I get frustrated by the ways that I need to manage text to make the computer understand my idea, I often step back and think &quot;What is the world I want to be in right now? How would I rather be doing this?&quot;. If I come up with a killer answer that works wonderfully on almost all levels, I make it so.</p>
+
+<p>I&#39;m not sure what drives other folks to make new modules and languages and tools, but that&#39;s a big part of my MO. Inline is like that and Inline::Module is too. What is the minimal info I need to tell the Perl toolchain to Make It So?</p>
+
+<p><code>&lt;/opinion&gt;</code></p>
+
+<h2>The Acme Example Modules</h2>
+
+<p>We&#39;ve rearranged the Acme::Math::XS git repo a bit. See this for details: <a href="https://github.com/ingydotnet/acme-math-xs-pm/blob/master/About.pod">https://github.com/ingydotnet/acme-math-xs-pm/blob/master/About.pod</a></p>
+
+<p>We&#39;ve made Acme::Math::XS::XS become Acme::Math::XS (and deprecated the former). This is the pure (no Inline) version. It s on the <code>xs</code> branch of the repo. All the Inline::Module versions will be released to CPAN using the <code>Alt</code> names listed in the link above.</p>
+
+<p>It is important to release this code as different modules, even though the code is exactly the same. We want to have proof that the modifications to the various build systems actually work in the wild.</p>
+
+<h2>Next Week</h2>
+
+<p>The next big step is definitely writing tests. Doing this type of work Test First would have caused too much churn early on. We needed to experiment and invent a non-trivial process that didn&#39;t exist. Now that we see it clearly, writing tests (and TDD) is the right choice.</p>
+
+<p>We now have real, usable, open source software on GitHub, so the roadmap and problems will start being expressed as Issues: <a href="https://github.com/ingydotnet/inline-module-pm/issues">https://github.com/ingydotnet/inline-module-pm/issues</a></p>
+
+<p>Finally, we need to convert some real XS modules like:</p>
+
+<ul>
+<li>Ingy&#39;s <a href="YAML::XS">YAML::XS</a></li>
+<li>David&#39;s <a href="Math::Prime::FastSieve">Math::Prime::FastSieve</a></li>
+</ul>
+
+<p>to use Inline::Module. This will happen first under the Alt namespace, then once they pass all tests same as the originals, we can make the real ones use Inline::Module.</p>
+
+<p>I encourage interested people to do the same (but maybe wait until next week to start :).</p>
+</div>
+        </div><!-- /.blog-main -->
+<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p>This site has the latest info about the progress of the TPF grant for Inline.pm</p>
+  </div>
+  <div class="sidebar-module">
+  <h4>Archives</h4>
+  <ol class="list-unstyled">
+    <li><a href="#">October 2014</a></li>
+  </ol>
+  </div>
+<!--
+  <div class="sidebar-module">
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li><a href="#">GitHub</a></li>
+    <li><a href="#">Twitter</a></li>
+    <li><a href="#">Facebook</a></li>
+  </ol>
+  </div>
+-->
+</div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+<!--
+  <div class="blog-footer">
+    <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    <p>
+      <a href="#">Back to top</a>
+    </p>
+  </div>
+-->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- Cog JS
+================================================== -->
+<script src="js/all.js"></script>
+  </body>
+</html>

@@ -3,6 +3,15 @@
    "nodes" : [
       {
          "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
+         "cogid" : "mh4x",
+         "type" : "post",
+         "link" : "inline-grant-weekly-report-4",
+         "title" : "Inline Grant Weekly Report #4",
+         "date" : "November 15, 2014",
+         "site_title" : "The TPF Inline Grant Info Site"
+      },
+      {
+         "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
          "cogid" : "m6z3",
          "type" : "post",
          "link" : "inline-grant-weekly-report-3",

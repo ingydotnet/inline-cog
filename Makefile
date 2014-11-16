@@ -14,6 +14,7 @@ BUILD_ROOT := $(BRANCHDIR)/build
 
 # TODO Get COGNODES values from build/config.yaml→recent
 COGNODES := \
+	mh4x \
 	m6z3 \
 	ecf6 \
 	se9g \
@@ -96,6 +97,7 @@ node/%.html: node
 
 # Need to figure out a good Makefile abstraction for this:
 permapages: page
+	cp node/mh4x.html page/inline-grant-weekly-report-4.html
 	cp node/m6z3.html page/inline-grant-weekly-report-3.html
 	cp node/ecf6.html page/inline-grant-weekly-report-2.html
 	cp node/se9g.html page/inline-grant-weekly-report-1.html
