@@ -23,7 +23,7 @@ Requests on [https://github.com/ingydotnet/inline-module-pm]).
 
 This is a fun story.
 
-I(ingy) thought I new how the Dist::Zilla stuff was going to work… I'd simply
+I(ingy) thought I knew how the Dist::Zilla stuff was going to work… I'd simply
 add these lines to a `dist.ini`:
 
   [InlineModule]
@@ -102,7 +102,7 @@ First would have caused too much churn early on. We needed to experiment and
 invent a non-trivial process that didn't exist. Now that we see it clearly,
 writing tests (and TDD) is the right choice.
 
-We now have real, usable software, with open source on GitHub, so the roadmap
+We now have real, usable, open source software on GitHub, so the roadmap
 and problems will start being expressed as Issues:
 https://github.com/ingydotnet/inline-module-pm/issues
 
