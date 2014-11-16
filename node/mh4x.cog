@@ -1,0 +1,119 @@
+Name: Inline Grant Weekly Report #4
+Type: post
+Date: November 15, 2014
+
+The major events of this week were:
+
+* Wrote [Inline::Module::Tutorial]
+* Added Dist::Zilla support for [Inline::Module]
+* Added Zilla::Dist support for [Inline::Module]
+* Released 2 new example modules based on the above:
+  * [Alt::Acme::Math::XS::DistZilla]
+  * [Alt::Acme::Math::XS::ZillaDist]
+
+== Inline::Module::Tutorial
+
+This is a work in progress. It explains how to make an XS module using Inline
+in very basic, specific terms. It only details what we have implemented so
+far, although there are stub sections for upcoming things. Please give it a
+read and let us know what you think (in the form of Issues and/or Pull
+Requests on [https://github.com/ingydotnet/inline-module-pm]).
+
+== Dist::Zilla Support
+
+This is a fun story.
+
+I(ingy) thought I new how the Dist::Zilla stuff was going to work… I'd simply
+add these lines to a `dist.ini`:
+
+  [InlineModule]
+  module = Acme::Math::XS
+  inline = Acme::Math::XS::Inline
+  ilsm = Inline::C
+
+then write a [Dist::Zilla::Plugin::InlineModule] and make it all work. In the
+end that's exactly what happened, although the path was bumpier than expected.
+
+I started by strolling over to #distzilla on IRC and asking ether++ a few dzil
+related questions. Then leont++ jumped in and wanted to know what was going on.
+I told him a bit and he thought I was getting some things wrong… So I invited
+him to start coding with me (PairUp style)!
+
+It took us a few minutes to get on the same page, but eventually we did. We got
+some basics into the plugin but then had to break for other stuff. When I came
+back, I got ether to PairUp for a while. Pretty soon we had a new module, just
+barely working well enough to release and then release the Acme module based
+off of it.
+
+TeamProgramming++! Thanks ether++ and leont++!
+
+== Zilla::Dist Support
+
+Once we got DZ supported, supporting ZD was trivial. The only difference is
+where the data goes. In this case it goes in the `Meta` file (where all the
+meta data does):
+
+  =zild:
+    inline:
+      module: Acme::Math::XS
+      inline: Acme::Math::XS::Inline
+      ilsm: Inline::C
+
+Of course, Zilla::Dist uses that info to generate the same `dist.ini` section
+above at `make release` time.
+
+== Talking About My Generation
+
+It's a good time to pause, and realize that the whole of programming is pretty
+much just the *generation* of one thing from another. Programmers might not
+think about it that way all the time, but I(ngy) tend to /only/ think about it
+that way.
+
+When I get frustrated by the ways that I need to manage text to make the
+computer understand my idea, I often step back and think "What is the world I
+want to be in right now? How would I rather be doing this?". If I come up with
+a killer answer that works wonderfully on almost all levels, I make it so.
+
+I'm not sure what drives other folks to make new modules and languages and
+tools, but that's a big part of my MO. Inline is like that and Inline::Module
+is too. What is the minimal info I need to tell the Perl toolchain to Make It
+So?
+
+`</opinion>`
+
+== The Acme Example Modules
+
+We've rearranged the Acme::Math::XS git repo a bit. See this for details:
+https://github.com/ingydotnet/acme-math-xs-pm/blob/master/About.pod
+
+We've made Acme::Math::XS::XS become Acme::Math::XS (and deprecated the
+former). This is the pure (no Inline) version. It s on the `xs` branch of
+the repo. All the Inline::Module versions will be released to CPAN using the
+`Alt` names listed in the link above.
+
+It is important to release this code as different modules, even though the code
+is exactly the same. We want to have proof that the modifications to the
+various build systems actually work in the wild.
+
+== Next Week
+
+The next big step is definitely writing tests. Doing this type of work Test
+First would have caused too much churn early on. We needed to experiment and
+invent a non-trivial process that didn't exist. Now that we see it clearly,
+writing tests (and TDD) is the right choice.
+
+We now have real, usable software, with open source on GitHub, so the roadmap
+and problems will start being expressed as Issues:
+https://github.com/ingydotnet/inline-module-pm/issues
+
+Finally, we need to convert some real XS modules like:
+
+* Ingy's [YAML::XS]
+* David's [Math::Prime::FastSieve]
+
+to use Inline::Module. This will happen first under the Alt namespace, then
+once they pass all tests same as the originals, we can make the real ones use
+Inline::Module.
+
+I encourage interested people to do the same (but maybe wait until next week to
+start :).
