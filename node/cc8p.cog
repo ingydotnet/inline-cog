@@ -1,0 +1,68 @@
+Name: Inline Grant Weekly Report #5
+Type: post
+Date: November 22, 2014
+
+*Refinement* and *Releases*. Those are the two words I (David) would use to
+describe what went on this week in the Inline Grant Project.
+
+== Thanks!
+
+First, we would like to thank those members of the Perl Community who
+contributed their suggestions, work, and code to the Inline Grant Project.
+*leont++* presented a strong case (in the form of a cohesive code example) of
+how to clean up our `Makefile.PL` by moving work out of a `FixupMakefile`
+function, and into a `postamble` action. Whereas previously the `Makefile.PL`
+might have looked like this:
+
+  WriteMakefile(
+    …
+  );
+
+  FixupMakefile(
+    …
+  );
+
+Now they look like this:
+
+  WriteMakefile(
+    …
+    postamble => {
+      inline => { … },
+    },
+  );
+
+which is a lot cleaner because it works within "the Perl toolchain system"
+instead of layering an additional step into it. This is documented in
+[Inline::Module::Tutorial].
+
+We also are receiving help from *ether++* on updating our
+[Dist::Zilla::Plugin::InlineModule] plugin to work within this cleaner
+framework.
+
+Additionally, we released [Module::Install::InlineModule]; a plugin to bring
+[Inline] support to [Module::Install] based distributions. So for those
+keeping score, we now support [ExtUtils::MakeMaker], [Dist::Zilla],
+[Zilla::Dist], and [Module::Install] based distributions for [Inline].
+
+== Modules, Modules, Modules
+
+We have also released the amazing [Alt::Acme::Math::XS::EUMM] in a new
+[Module::Install] based version. Once again for the benefit of those keeping
+score, the Inline Grant Project has, to date, spawned eight new modules; some
+plugins, some proofs of concept, and of course [Inline::Module] itself.
+Additionally, it has directly contributed to new releases of [Inline],
+[Inline::CPP], [Inline::C], and many other support modules.
+
+This next week we intend to finish revamping the [Dist::Zilla] plugin, tackle
+[Module::Build] support, add more tests, and finally convert a couple of
+pre-existing CPAN modules to Inline-based modules.
+
+It's gratifying to see the level of enthusiastic support this project has
+attracted from the Perl Community. We're seeing more familiar faces in
+`irc.perl.org#inline`, receiving more suggestions, and benefiting more from
+code contributions than ever before.
+
+As we move across the inchstones leading to the wrapping up of the Inline
+grant project, we are encouraged by the support that we've seen, which
+demonstrates to us that the end of the grant will only be the beginning of the
+growth and revitalization of the Inline project.
