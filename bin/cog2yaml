@@ -26,7 +26,4 @@ if (my $title = $hash->{title}) {
     $hash->{link} = $link;
 }
 
-$hash->{site_title} = "The TPF Inline Grant Info Site";
-$hash->{heading} = "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.";
-
 print Dump $hash;

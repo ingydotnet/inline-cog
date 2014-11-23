@@ -10,7 +10,8 @@ my $yaml_dir = 'tmp/yaml';
 my $data = YAML::XS::LoadFile($config_file);
 $data->{nodes} = [];
 
-for my $yaml_file (io->dir($yaml_dir)->all_files) {
+for my $node_id (@{$data->{node_order}}) {
+    my $yaml_file = "$yaml_dir/$node_id.yaml";
     my $node = YAML::XS::LoadFile("$yaml_file");
     push @{$data->{nodes}}, $node;
 }
