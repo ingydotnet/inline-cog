@@ -1,0 +1,5 @@
+- Put data Makefile sections into a separate .mf file
+  - COGNODES
+  - permapages
+- Put site specific yaml values into a separate config
+  - Need to adjust everything for it
