@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+  <title>Inline Grant Weekly Report #5</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/blog.css" rel="stylesheet">
+  <link href="css/cog.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+  <body>
+<div class="blog-masthead">
+  <div class="container">
+    <nav class="blog-nav">
+      <a class="blog-nav-item active" href="/">Home</a>
+<!--
+      <a class="blog-nav-item" href="#">New features</a>
+      <a class="blog-nav-item" href="#">Press</a>
+      <a class="blog-nav-item" href="#">New hires</a>
+      <a class="blog-nav-item" href="#">About</a>
+-->
+    </nav>
+  </div>
+</div>
+    <div class="container">
+<div class="blog-header">
+  <h1 class="blog-title"></h1>
+  <p class="lead blog-description"></p>
+</div>
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+<div class="blog-post">
+  <h2 class="blog-post-title">Inline Grant Weekly Report #5</h2>
+    <p><strong>Refinement</strong> and <strong>Releases</strong>. Those are the two words I (David) would use to describe what went on this week in the Inline Grant Project.</p>
+
+<h2>Thanks!</h2>
+
+<p>First, we would like to thank those members of the Perl Community who contributed their suggestions, work, and code to the Inline Grant Project. <strong>leont++</strong> presented a strong case (in the form of a cohesive code example) of how to clean up our <code>Makefile.PL</code> by moving work out of a <code>FixupMakefile</code> function, and into a <code>postamble</code> action. Whereas previously the <code>Makefile.PL</code> might have looked like this:</p>
+
+<pre><code>WriteMakefile(
+  …
+);
+
+FixupMakefile(
+  …
+);
+</code></pre>
+
+<p>Now they look like this:</p>
+
+<pre><code>WriteMakefile(
+  …
+  postamble =&gt; &#123;
+    inline =&gt; &#123; … &#125;,
+  &#125;,
+);
+</code></pre>
+
+<p>which is a lot cleaner because it works within &quot;the Perl toolchain system&quot; instead of layering an additional step into it. This is documented in <a href="Inline::Module::Tutorial">Inline::Module::Tutorial</a>.</p>
+
+<p>We also are receiving help from <strong>ether++</strong> on updating our <a href="Dist::Zilla::Plugin::InlineModule">Dist::Zilla::Plugin::InlineModule</a> plugin to work within this cleaner framework.</p>
+
+<p>Additionally, we released <a href="Module::Install::InlineModule">Module::Install::InlineModule</a>; a plugin to bring <a href="Inline">Inline</a> support to <a href="Module::Install">Module::Install</a> based distributions. So for those keeping score, we now support <a href="ExtUtils::MakeMaker">ExtUtils::MakeMaker</a>, <a href="Dist::Zilla">Dist::Zilla</a>, <a href="Zilla::Dist">Zilla::Dist</a>, and <a href="Module::Install">Module::Install</a> based distributions for <a href="Inline">Inline</a>.</p>
+
+<h2>Modules, Modules, Modules</h2>
+
+<p>We have also released the amazing <a href="Alt::Acme::Math::XS::EUMM">Alt::Acme::Math::XS::EUMM</a> in a new <a href="Module::Install">Module::Install</a> based version. Once again for the benefit of those keeping score, the Inline Grant Project has, to date, spawned eight new modules; some plugins, some proofs of concept, and of course <a href="Inline::Module">Inline::Module</a> itself. Additionally, it has directly contributed to new releases of <a href="Inline">Inline</a>, <a href="Inline::CPP">Inline::CPP</a>, <a href="Inline::C">Inline::C</a>, and many other support modules.</p>
+
+<p>This next week we intend to finish revamping the <a href="Dist::Zilla">Dist::Zilla</a> plugin, tackle <a href="Module::Build">Module::Build</a> support, add more tests, and finally convert a couple of pre-existing CPAN modules to Inline-based modules.</p>
+
+<p>It&#39;s gratifying to see the level of enthusiastic support this project has attracted from the Perl Community. We&#39;re seeing more familiar faces in <code>irc.perl.org#inline</code>, receiving more suggestions, and benefiting more from code contributions than ever before.</p>
+
+<p>As we move across the inchstones leading to the wrapping up of the Inline grant project, we are encouraged by the support that we&#39;ve seen, which demonstrates to us that the end of the grant will only be the beginning of the growth and revitalization of the Inline project.</p>
+</div>
+        </div><!-- /.blog-main -->
+<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p>This site has the latest info about the progress of the TPF grant for Inline.pm</p>
+  </div>
+  <div class="sidebar-module">
+  <h4>Archives</h4>
+  <ol class="list-unstyled">
+    <li><a href="#">October 2014</a></li>
+  </ol>
+  </div>
+<!--
+  <div class="sidebar-module">
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li><a href="#">GitHub</a></li>
+    <li><a href="#">Twitter</a></li>
+    <li><a href="#">Facebook</a></li>
+  </ol>
+  </div>
+-->
+</div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+<!--
+  <div class="blog-footer">
+    <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    <p>
+      <a href="#">Back to top</a>
+    </p>
+  </div>
+-->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+
+<!-- Cog JS
+================================================== -->
+<script src="js/all.js"></script>
+  </body>
+</html>

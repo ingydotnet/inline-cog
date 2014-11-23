@@ -12,15 +12,7 @@ ALL_JSON   := js/all.json
 COG_ROOT   := $(BRANCHDIR)/cog
 BUILD_ROOT := $(BRANCHDIR)/build
 
-# TODO Get COGNODES values from build/config.yaml→recent
-COGNODES := \
-	mh4x \
-	m6z3 \
-	ecf6 \
-	se9g \
-	v3e7 \
-	y5yq \
-	y6ut \
+include pkg/nodes.mk
 
 ALL_SWIM := $(COGNODES:%=tmp/swim/%.swim)
 ALL_YAML := $(COGNODES:%=tmp/yaml/%.yaml)
@@ -35,20 +27,13 @@ help:
 	@echo '    branch         - Clone branches into branch/'
 	@echo '    build          - Rebuild website'
 	@echo '    clean          - Delete generated content'
+	@echo '    start          - Start web server'
+	@echo '    stop           - Stop web server'
 	@echo ''
 	@echo '    branch-status  - Check subrepo/branch statuses'
 	@echo ''
 
 branch: $(SUBDIRS)
-
-# foreach node in COGNODES
-#   make tmp/swim/id.swim
-#   make tmp/yaml/id.yaml
-#   use swim + yaml to make
-#     tmp/html/id.html template
-#   render node/id.html
-# make index.html
-# make css
 
 build: $(SUBDIRS) \
 	$(ALL_SWIM) \
@@ -56,14 +41,20 @@ build: $(SUBDIRS) \
 	$(ALL_HTML) \
 	$(ALL_NODE) \
 	permapages \
-	$(SITE_INDEX) \
 	$(SITE_JS) \
 	$(ALL_JSON) \
+	$(SITE_INDEX) \
 	css/blog.css \
 	css/cog.css \
 
 clean purge:
-	rm -fr $(TEMPDIR) $(BRANCHDIR)
+	rm -fr $(TEMPDIR) $(BRANCHDIR) web.log
+
+start:
+	@echo 'Run: python -m SimpleHTTPServer &> web.log &'
+
+stop:
+	kill `ps ax | grep SimpleHTTPServer | grep -v grep | cut -f2 -d' '`
 
 branch-status:
 	@for d in $(BRANCHDIR)/*; do \
@@ -95,17 +86,9 @@ node/%.html: node
 	  --post-chomp page.html \
 	  > $@
 
-# Need to figure out a good Makefile abstraction for this:
-permapages: page
-	cp node/mh4x.html page/inline-grant-weekly-report-4.html
-	cp node/m6z3.html page/inline-grant-weekly-report-3.html
-	cp node/ecf6.html page/inline-grant-weekly-report-2.html
-	cp node/se9g.html page/inline-grant-weekly-report-1.html
-	cp node/v3e7.html page/inline-module-spec.html
-	cp node/y5yq.html page/inline-grant-accepted.html
-	cp node/y6ut.html page/ingy-and-david-bio.html
+include pkg/permapages.mk
 
-$(SITE_INDEX):
+$(SITE_INDEX): force
 	tt-render \
 	  --path="$(BUILD_ROOT)/template:$(HTMLDIR)" \
 	  --data=$(ALL_JSON) \
@@ -114,7 +97,7 @@ $(SITE_INDEX):
 
 #------------------------------------------------------------------------------
 
-$(ALL_JSON):
+$(ALL_JSON): force
 	$(BUILD_ROOT)/bin/all-json > $@
 
 $(SITE_JS): js $(TEMPDIR)/jemplates force

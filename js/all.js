@@ -6,7 +6,7 @@ compiled Jemplate templates.
 
 AUTHOR - Ingy döt Net <ingy@cpan.org>
 
-Copyright 2006,2008 Ingy döt Net.
+Copyright 2006-2014 Ingy döt Net.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -1907,7 +1907,7 @@ Jemplate.JSON = {
    Template Toolkit. Any changes made to this file will be lost the next
    time the templates are compiled.
 
-   Copyright 2006-2008 - Ingy döt Net - All rights reserved.
+   Copyright 2006-2014 - Ingy döt Net - All rights reserved.
 */
 
 var Jemplate;
@@ -1917,6 +1917,22 @@ if (typeof(exports) == 'object') {
 
 if (typeof(Jemplate) == 'undefined')
     throw('Jemplate.js must be loaded before any Jemplate template files');
+
+Jemplate.templateMap['cc8p.html'] = function(context) {
+    if (! context) throw('Jemplate function called without context\n');
+    var stash = context.stash;
+    var output = '';
+
+    try {
+output += '<p>Name: Inline Grant Weekly Report #5 Type: post Date: November 22, 2014</p>\n\n<p><strong>Refinement</strong> and <strong>Releases</strong>. Those are the two words I (David) would use to describe what went on this week in the Inline Grant Project.</p>\n\n<h2>Thanks!</h2>\n\n<p>First, we would like to thank those members of the Perl Community who contributed their suggestions, work, and code to the Inline Grant Project. <strong>leont++</strong> presented a strong case (in the form of a cohesive code example) of how to clean up our <code>Makefile.PL</code> by moving work out of a <code>FixupMakefile</code> function, and into a <code>postamble</code> action. Whereas previously the <code>Makefile.PL</code> might have looked like this:</p>\n\n<pre><code>WriteMakefile(\n  …\n);\n\nFixupMakefile(\n  …\n);\n</code></pre>\n\n<p>Now they look like this:</p>\n\n<pre><code>WriteMakefile(\n  …\n  postamble =&gt; &#123;\n    inline =&gt; &#123; … &#125;,\n  &#125;,\n);\n</code></pre>\n\n<p>which is a lot cleaner because it works within &quot;the Perl toolchain system&quot; instead of layering an additional step into it. This is documented in <a href="Inline::Module::Tutorial">Inline::Module::Tutorial</a>.</p>\n\n<p>We also are receiving help from <strong>ether++</strong> on updating our <a href="Dist::Zilla::Plugin::InlineModule">Dist::Zilla::Plugin::InlineModule</a> plugin to work within this cleaner framework.</p>\n\n<p>Additionally, we released <a href="Module::Install::InlineModule">Module::Install::InlineModule</a>; a plugin to bring <a href="Inline">Inline</a> support to <a href="Module::Install">Module::Install</a> based distributions. So for those keeping score, we now support <a href="ExtUtils::MakeMaker">ExtUtils::MakeMaker</a>, <a href="Dist::Zilla">Dist::Zilla</a>, <a href="Zilla::Dist">Zilla::Dist</a>, and <a href="Module::Install">Module::Install</a> based distributions for <a href="Inline">Inline</a>.</p>\n\n<h2>Modules, Modules, Modules</h2>\n\n<p>We have also released the amazing <a href="Alt::Acme::Math::XS::EUMM">Alt::Acme::Math::XS::EUMM</a> in a new <a href="Module::Install">Module::Install</a> based version. Once again for the benefit of those keeping score, the Inline Grant Project has, to date, spawned eight new modules; some plugins, some proofs of concept, and of course <a href="Inline::Module">Inline::Module</a> itself. Additionally, it has directly contributed to new releases of <a href="Inline">Inline</a>, <a href="Inline::CPP">Inline::CPP</a>, <a href="Inline::C">Inline::C</a>, and many other support modules.</p>\n\n<p>This next week we intend to finish revamping the <a href="Dist::Zilla">Dist::Zilla</a> plugin, tackle <a href="Module::Build">Module::Build</a> support, add more tests, and finally convert a couple of pre-existing CPAN modules to Inline-based modules.</p>\n\n<p>It&#39;s gratifying to see the level of enthusiastic support this project has attracted from the Perl Community. We&#39;re seeing more familiar faces in <code>irc.perl.org#inline</code>, receiving more suggestions, and benefiting more from code contributions than ever before.</p>\n\n<p>As we move across the inchstones leading to the wrapping up of the Inline grant project, we are encouraged by the support that we&#39;ve seen, which demonstrates to us that the end of the grant will only be the beginning of the growth and revitalization of the Inline project.</p>\n';
+    }
+    catch(e) {
+        var error = context.set_error(e, output);
+        throw(error);
+    }
+
+    return output;
+}
 
 Jemplate.templateMap['ecf6.html'] = function(context) {
     if (! context) throw('Jemplate function called without context\n');
