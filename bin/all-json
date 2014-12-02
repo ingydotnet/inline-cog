@@ -16,4 +16,4 @@ for my $node_id (@{$data->{node_order}}) {
     push @{$data->{nodes}}, $node;
 }
 
-print JSON::XS->new->pretty(1)->encode($data);
+print JSON::XS->new->canonical->pretty(1)->encode($data);
