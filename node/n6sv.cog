@@ -1,0 +1,56 @@
+Name: Inline Grant Weekly Report #6
+Type: post
+Date: December 1, 2014
+
+*Happy belated Thanksgiving!!!*
+
+Last week was a bit slow on the Inline front. Not much code got done but one
+important idea came along that (potentially) simplifies the whole
+Inline::Module dance. We call it /auto-stubbing/.
+
+== Auto-Stubbing
+
+When a module has Inline C (or C++) code in it, it needs a *stub* module to
+invoke Inline and\/or dynaload a shared library. This stub is /generated code/.
+We had a command for the module auhor to generate it:
+
+  perl-inline-module generate Acme::Math::XS::Inline
+
+and we assumed authors would commit this code, and regenerate it from time to
+time as Inline::Module required it to change.
+
+(*NOTE:* /This is all about author side experience. The user side installation
+process and result remains the same./)
+
+Last week we called *BS* on that:
+
+* Generated code should be automagic
+* Generated code should not get committed if possible
+
+We think we figured out how to make this work in a few styles that will fit in
+with various module author development styles. One of our goals is that when
+you use Inline::Module, you can test using the pure Perl mantra:
+
+  prove -lv t/
+
+But at this point it is too late to autostub. We need something to happen just
+before that. One idea is to do this:
+
+  PERL5OPT='-MInline::Module=autostub' prove -lv t/
+
+or:
+
+  export PERL5OPT='-MInline::Module=autostub'
+  ... later on ...
+  prove -lv t/
+
+This adds a CODE ref to `@INC` to do the autostubbing, just in time.
+
+We'll have a few ways to do it, so that if you are someone who likes to do
+everything explicitly, you can still just:
+
+  perl-inline-module generate Acme::Math::XS::Inline
+
+This autostubbing should be done in the next couple days. We'll let you know
+how it turned out in the next review.
+
