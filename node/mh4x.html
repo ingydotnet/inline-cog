@@ -43,13 +43,13 @@
     <p>The major events of this week were:</p>
 
 <ul>
-<li>Wrote <a href="https://metacpan.org/release/Inline-Module-Tutorial">Inline::Module::Tutorial</a></li>
-<li>Added Dist::Zilla support for <a href="https://metacpan.org/release/Inline-Module">Inline::Module</a></li>
-<li>Added Zilla::Dist support for <a href="https://metacpan.org/release/Inline-Module">Inline::Module</a></li>
+<li>Wrote <a href="https://metacpan.org/pod/Inline::Module::Tutorial">Inline::Module::Tutorial</a></li>
+<li>Added Dist::Zilla support for <a href="https://metacpan.org/pod/Inline::Module">Inline::Module</a></li>
+<li>Added Zilla::Dist support for <a href="https://metacpan.org/pod/Inline::Module">Inline::Module</a></li>
 <li>Released 2 new example modules based on the above:
 <ul>
-<li><a href="https://metacpan.org/release/Alt-Acme-Math-XS-DistZilla">Alt::Acme::Math::XS::DistZilla</a></li>
-<li><a href="https://metacpan.org/release/Alt-Acme-Math-XS-ZillaDist">Alt::Acme::Math::XS::ZillaDist</a></li>
+<li><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::DistZilla">Alt::Acme::Math::XS::DistZilla</a></li>
+<li><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::ZillaDist">Alt::Acme::Math::XS::ZillaDist</a></li>
 </ul>
 
 </li>
@@ -71,7 +71,7 @@ inline = Acme::Math::XS::Inline
 ilsm = Inline::C
 </code></pre>
 
-<p>then write a <a href="https://metacpan.org/release/Dist-Zilla-Plugin-InlineModule">Dist::Zilla::Plugin::InlineModule</a> and make it all work. In the end that&#39;s exactly what happened, although the path was bumpier than expected.</p>
+<p>then write a <a href="https://metacpan.org/pod/Dist::Zilla::Plugin::InlineModule">Dist::Zilla::Plugin::InlineModule</a> and make it all work. In the end that&#39;s exactly what happened, although the path was bumpier than expected.</p>
 
 <p>I started by strolling over to #distzilla on IRC and asking ether++ a few dzil related questions. Then leont++ jumped in and wanted to know what was going on. I told him a bit and he thought I was getting some things wrong… So I invited him to start coding with me (PairUp style)!</p>
 
@@ -119,8 +119,8 @@ ilsm = Inline::C
 <p>Finally, we need to convert some real XS modules like:</p>
 
 <ul>
-<li>Ingy&#39;s <a href="https://metacpan.org/release/YAML-XS">YAML::XS</a></li>
-<li>David&#39;s <a href="https://metacpan.org/release/Math-Prime-FastSieve">Math::Prime::FastSieve</a></li>
+<li>Ingy&#39;s <a href="https://metacpan.org/pod/YAML::XS">YAML::XS</a></li>
+<li>David&#39;s <a href="https://metacpan.org/pod/Math::Prime::FastSieve">Math::Prime::FastSieve</a></li>
 </ul>
 
 <p>to use Inline::Module. This will happen first under the Alt namespace, then once they pass all tests same as the originals, we can make the real ones use Inline::Module.</p>
