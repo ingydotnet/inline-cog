@@ -1,4 +1,5 @@
 {
+   "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
    "node_order" : [
       "n6sv",
       "cc8p",
@@ -10,67 +11,66 @@
       "y6ut",
       "y5yq"
    ],
-   "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
-   "site_title" : "The TPF Inline Grant Info Site",
    "nodes" : [
       {
+         "cogid" : "n6sv",
          "date" : "December 1, 2014",
-         "type" : "post",
-         "title" : "Inline Grant Weekly Report #6",
          "link" : "inline-grant-weekly-report-6",
-         "cogid" : "n6sv"
-      },
-      {
-         "type" : "post",
-         "date" : "November 22, 2014",
-         "title" : "Inline Grant Weekly Report #5",
-         "link" : "inline-grant-weekly-report-5",
-         "cogid" : "cc8p"
-      },
-      {
-         "type" : "post",
-         "date" : "November 15, 2014",
-         "cogid" : "mh4x",
-         "title" : "Inline Grant Weekly Report #4",
-         "link" : "inline-grant-weekly-report-4"
-      },
-      {
-         "type" : "post",
-         "date" : "November 9, 2014",
-         "title" : "Inline Grant Weekly Report #3",
-         "link" : "inline-grant-weekly-report-3",
-         "cogid" : "m6z3"
-      },
-      {
-         "title" : "Inline Grant Weekly Report #2",
-         "cogid" : "ecf6",
-         "link" : "inline-grant-weekly-report-2",
-         "date" : "November 2, 2014",
+         "title" : "Inline Grant Weekly Report #6",
          "type" : "post"
       },
       {
-         "title" : "Inline Grant Weekly Report #1",
-         "link" : "inline-grant-weekly-report-1",
+         "cogid" : "cc8p",
+         "date" : "November 22, 2014",
+         "link" : "inline-grant-weekly-report-5",
+         "title" : "Inline Grant Weekly Report #5",
+         "type" : "post"
+      },
+      {
+         "cogid" : "mh4x",
+         "date" : "November 15, 2014",
+         "link" : "inline-grant-weekly-report-4",
+         "title" : "Inline Grant Weekly Report #4",
+         "type" : "post"
+      },
+      {
+         "cogid" : "m6z3",
+         "date" : "November 9, 2014",
+         "link" : "inline-grant-weekly-report-3",
+         "title" : "Inline Grant Weekly Report #3",
+         "type" : "post"
+      },
+      {
+         "cogid" : "ecf6",
+         "date" : "November 2, 2014",
+         "link" : "inline-grant-weekly-report-2",
+         "title" : "Inline Grant Weekly Report #2",
+         "type" : "post"
+      },
+      {
          "cogid" : "se9g",
          "date" : "October 25, 2014",
+         "link" : "inline-grant-weekly-report-1",
+         "title" : "Inline Grant Weekly Report #1",
          "type" : "post"
       },
       {
+         "cogid" : "v3e7",
          "link" : "inline-module-spec",
-         "title" : "Inline Module Spec",
-         "cogid" : "v3e7"
+         "title" : "Inline Module Spec"
       },
       {
          "cogid" : "y6ut",
-         "title" : "Ingy and David Bio",
-         "link" : "ingy-and-david-bio"
+         "link" : "ingy-and-david-bio",
+         "title" : "Ingy and David Bio"
       },
       {
-         "link" : "inline-grant-accepted",
-         "title" : "Inline Grant Accepted",
          "cogid" : "y5yq",
          "date" : "October 20, 2014",
+         "link" : "inline-grant-accepted",
+         "title" : "Inline Grant Accepted",
          "type" : "post"
       }
-   ]
+   ],
+   "site_title" : "The TPF Inline Grant Info Site"
 }
