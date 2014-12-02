@@ -14,8 +14,8 @@
   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/blog.css" rel="stylesheet">
-  <link href="css/cog.css" rel="stylesheet">
+  <link href="/css/blog.css" rel="stylesheet">
+  <link href="/css/cog.css" rel="stylesheet">
 </head>
   <body>
 <div class="blog-masthead">
@@ -46,14 +46,14 @@
 
 <h2>Auto-Stubbing</h2>
 
-<p>When a module has Inline C (or C++) code in it, it needs a <strong>stub</strong> module to invoke Inline and<em>or dynaload a shared library. This stub is </em>generated code/. We had a command for the module auhor to generate it:</p>
+<p>When a module has Inline C (or C++) code in it, it needs a <strong>stub</strong> module to invoke Inline and/or dynaload a shared library. This stub is <em>generated code</em>. We had a command for the module auhor to generate it:</p>
 
 <pre><code>perl-inline-module generate Acme::Math::XS::Inline
 </code></pre>
 
 <p>and we assumed authors would commit this code, and regenerate it from time to time as Inline::Module required it to change.</p>
 
-<p>(<strong>NOTE:</strong> This is all about author side experience. The user side installation process and result remains the same.)</p>
+<p>(<strong>NOTE:</strong> <em>This is all about author side experience. The user side installation process and result remains the same.</em>)</p>
 
 <p>Last week we called <strong>BS</strong> on that:</p>
 

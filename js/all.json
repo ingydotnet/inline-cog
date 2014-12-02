@@ -1,67 +1,4 @@
 {
-   "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
-   "nodes" : [
-      {
-         "cogid" : "n6sv",
-         "type" : "post",
-         "link" : "inline-grant-weekly-report-6",
-         "title" : "Inline Grant Weekly Report #6",
-         "date" : "December 1, 2014"
-      },
-      {
-         "date" : "November 22, 2014",
-         "title" : "Inline Grant Weekly Report #5",
-         "link" : "inline-grant-weekly-report-5",
-         "type" : "post",
-         "cogid" : "cc8p"
-      },
-      {
-         "type" : "post",
-         "cogid" : "mh4x",
-         "date" : "November 15, 2014",
-         "title" : "Inline Grant Weekly Report #4",
-         "link" : "inline-grant-weekly-report-4"
-      },
-      {
-         "title" : "Inline Grant Weekly Report #3",
-         "date" : "November 9, 2014",
-         "link" : "inline-grant-weekly-report-3",
-         "cogid" : "m6z3",
-         "type" : "post"
-      },
-      {
-         "cogid" : "ecf6",
-         "type" : "post",
-         "title" : "Inline Grant Weekly Report #2",
-         "date" : "November 2, 2014",
-         "link" : "inline-grant-weekly-report-2"
-      },
-      {
-         "link" : "inline-grant-weekly-report-1",
-         "date" : "October 25, 2014",
-         "title" : "Inline Grant Weekly Report #1",
-         "type" : "post",
-         "cogid" : "se9g"
-      },
-      {
-         "cogid" : "v3e7",
-         "link" : "inline-module-spec",
-         "title" : "Inline Module Spec"
-      },
-      {
-         "link" : "ingy-and-david-bio",
-         "title" : "Ingy and David Bio",
-         "cogid" : "y6ut"
-      },
-      {
-         "date" : "October 20, 2014",
-         "title" : "Inline Grant Accepted",
-         "link" : "inline-grant-accepted",
-         "type" : "post",
-         "cogid" : "y5yq"
-      }
-   ],
-   "site_title" : "The TPF Inline Grant Info Site",
    "node_order" : [
       "n6sv",
       "cc8p",
@@ -72,5 +9,68 @@
       "v3e7",
       "y6ut",
       "y5yq"
+   ],
+   "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
+   "site_title" : "The TPF Inline Grant Info Site",
+   "nodes" : [
+      {
+         "date" : "December 1, 2014",
+         "type" : "post",
+         "title" : "Inline Grant Weekly Report #6",
+         "link" : "inline-grant-weekly-report-6",
+         "cogid" : "n6sv"
+      },
+      {
+         "type" : "post",
+         "date" : "November 22, 2014",
+         "title" : "Inline Grant Weekly Report #5",
+         "link" : "inline-grant-weekly-report-5",
+         "cogid" : "cc8p"
+      },
+      {
+         "type" : "post",
+         "date" : "November 15, 2014",
+         "cogid" : "mh4x",
+         "title" : "Inline Grant Weekly Report #4",
+         "link" : "inline-grant-weekly-report-4"
+      },
+      {
+         "type" : "post",
+         "date" : "November 9, 2014",
+         "title" : "Inline Grant Weekly Report #3",
+         "link" : "inline-grant-weekly-report-3",
+         "cogid" : "m6z3"
+      },
+      {
+         "title" : "Inline Grant Weekly Report #2",
+         "cogid" : "ecf6",
+         "link" : "inline-grant-weekly-report-2",
+         "date" : "November 2, 2014",
+         "type" : "post"
+      },
+      {
+         "title" : "Inline Grant Weekly Report #1",
+         "link" : "inline-grant-weekly-report-1",
+         "cogid" : "se9g",
+         "date" : "October 25, 2014",
+         "type" : "post"
+      },
+      {
+         "link" : "inline-module-spec",
+         "title" : "Inline Module Spec",
+         "cogid" : "v3e7"
+      },
+      {
+         "cogid" : "y6ut",
+         "title" : "Ingy and David Bio",
+         "link" : "ingy-and-david-bio"
+      },
+      {
+         "link" : "inline-grant-accepted",
+         "title" : "Inline Grant Accepted",
+         "cogid" : "y5yq",
+         "date" : "October 20, 2014",
+         "type" : "post"
+      }
    ]
 }
