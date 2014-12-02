@@ -1982,6 +1982,22 @@ output += '<p>Name: Inline Grant Weekly Report #4 Type: post Date: November 15, 
     return output;
 }
 
+Jemplate.templateMap['n6sv.html'] = function(context) {
+    if (! context) throw('Jemplate function called without context\n');
+    var stash = context.stash;
+    var output = '';
+
+    try {
+output += '<p>Name: Inline Grant Weekly Report #6 Type: post Date: December 1, 2014</p>\n\n<p><strong>Happy belated Thanksgiving!!!</strong></p>\n\n<p>Last week was a bit slow on the Inline front. Not much code got done but one important idea came along that (potentially) simplifies the whole Inline::Module dance. We call it <em>auto-stubbing</em>.</p>\n\n<h2>Auto-Stubbing</h2>\n\n<p>When a module has Inline C (or C++) code in it, it needs a <strong>stub</strong> module to invoke Inline and/or dynaload a shared library. This stub is <em>generated code</em>. We had a command for the module auhor to generate it:</p>\n\n<pre><code>perl-inline-module generate Acme::Math::XS::Inline\n</code></pre>\n\n<p>and we assumed authors would commit this code, and regenerate it from time to time as Inline::Module required it to change.</p>\n\n<p>(<strong>NOTE:</strong> <em>This is all about author side experience. The user side installation process and result remains the same.</em>)</p>\n\n<p>Last week we called <strong>BS</strong> on that:</p>\n\n<ul>\n<li>Generated code should be automagic</li>\n<li>Generated code should not get committed if possible</li>\n</ul>\n\n<p>We think we figured out how to make this work in a few styles that will fit in with various module author development styles. One of our goals is that when you use Inline::Module, you can test using the pure Perl mantra:</p>\n\n<pre><code>prove -lv t/\n</code></pre>\n\n<p>But at this point it is too late to autostub. We need something to happen just before that. One idea is to do this:</p>\n\n<pre><code>PERL5OPT=&#39;-MInline::Module=autostub&#39; prove -lv t/\n</code></pre>\n\n<p>or:</p>\n\n<pre><code>export PERL5OPT=&#39;-MInline::Module=autostub&#39;\n... later on ...\nprove -lv t/\n</code></pre>\n\n<p>This adds a CODE ref to <code>@INC</code> to do the autostubbing, just in time.</p>\n\n<p>We&#39;ll have a few ways to do it, so that if you are someone who likes to do everything explicitly, you can still just:</p>\n\n<pre><code>perl-inline-module generate Acme::Math::XS::Inline\n</code></pre>\n\n<p>This autostubbing should be done in the next couple days. We&#39;ll let you know how it turned out in the next review.</p>\n';
+    }
+    catch(e) {
+        var error = context.set_error(e, output);
+        throw(error);
+    }
+
+    return output;
+}
+
 Jemplate.templateMap['se9g.html'] = function(context) {
     if (! context) throw('Jemplate function called without context\n');
     var stash = context.stash;

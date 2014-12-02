@@ -1,5 +1,8 @@
 {
+   "site_title" : "The TPF Inline Grant Info Site",
+   "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
    "node_order" : [
+      "n6sv",
       "cc8p",
       "mh4x",
       "m6z3",
@@ -9,48 +12,53 @@
       "y6ut",
       "y5yq"
    ],
-   "site_title" : "The TPF Inline Grant Info Site",
-   "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
    "nodes" : [
       {
-         "link" : "inline-grant-weekly-report-5",
-         "date" : "November 22, 2014",
+         "cogid" : "n6sv",
          "type" : "post",
-         "title" : "Inline Grant Weekly Report #5",
-         "cogid" : "cc8p"
+         "title" : "Inline Grant Weekly Report #6",
+         "date" : "December 1, 2014",
+         "link" : "inline-grant-weekly-report-6"
       },
       {
-         "link" : "inline-grant-weekly-report-4",
-         "date" : "November 15, 2014",
          "type" : "post",
-         "title" : "Inline Grant Weekly Report #4",
-         "cogid" : "mh4x"
+         "cogid" : "cc8p",
+         "title" : "Inline Grant Weekly Report #5",
+         "link" : "inline-grant-weekly-report-5",
+         "date" : "November 22, 2014"
+      },
+      {
+         "date" : "November 15, 2014",
+         "link" : "inline-grant-weekly-report-4",
+         "type" : "post",
+         "cogid" : "mh4x",
+         "title" : "Inline Grant Weekly Report #4"
       },
       {
          "link" : "inline-grant-weekly-report-3",
          "date" : "November 9, 2014",
          "type" : "post",
-         "title" : "Inline Grant Weekly Report #3",
-         "cogid" : "m6z3"
+         "cogid" : "m6z3",
+         "title" : "Inline Grant Weekly Report #3"
       },
       {
-         "link" : "inline-grant-weekly-report-2",
-         "date" : "November 2, 2014",
-         "type" : "post",
          "title" : "Inline Grant Weekly Report #2",
-         "cogid" : "ecf6"
+         "cogid" : "ecf6",
+         "type" : "post",
+         "link" : "inline-grant-weekly-report-2",
+         "date" : "November 2, 2014"
       },
       {
          "link" : "inline-grant-weekly-report-1",
          "date" : "October 25, 2014",
-         "type" : "post",
          "title" : "Inline Grant Weekly Report #1",
-         "cogid" : "se9g"
+         "cogid" : "se9g",
+         "type" : "post"
       },
       {
          "link" : "inline-module-spec",
-         "title" : "Inline Module Spec",
-         "cogid" : "v3e7"
+         "cogid" : "v3e7",
+         "title" : "Inline Module Spec"
       },
       {
          "link" : "ingy-and-david-bio",
@@ -58,10 +66,10 @@
          "cogid" : "y6ut"
       },
       {
-         "link" : "inline-grant-accepted",
          "date" : "October 20, 2014",
-         "type" : "post",
+         "link" : "inline-grant-accepted",
          "title" : "Inline Grant Accepted",
+         "type" : "post",
          "cogid" : "y5yq"
       }
    ]

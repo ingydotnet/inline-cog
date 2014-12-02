@@ -39,6 +39,61 @@
       <div class="row">
         <div class="col-sm-8 blog-main">
               <div class="blog-post">
+  <h2 class="blog-post-title">Inline Grant Weekly Report #6</h2>
+  <p class="blog-post-meta">
+    December 1, 2014    by
+    <a href="page/ingy-and-david-bio.html">Ingy and David</a>
+  </p>
+  <p><strong>Happy belated Thanksgiving!!!</strong></p>
+
+<p>Last week was a bit slow on the Inline front. Not much code got done but one important idea came along that (potentially) simplifies the whole Inline::Module dance. We call it <em>auto-stubbing</em>.</p>
+
+<h2>Auto-Stubbing</h2>
+
+<p>When a module has Inline C (or C++) code in it, it needs a <strong>stub</strong> module to invoke Inline and/or dynaload a shared library. This stub is <em>generated code</em>. We had a command for the module auhor to generate it:</p>
+
+<pre><code>perl-inline-module generate Acme::Math::XS::Inline
+</code></pre>
+
+<p>and we assumed authors would commit this code, and regenerate it from time to time as Inline::Module required it to change.</p>
+
+<p>(<strong>NOTE:</strong> <em>This is all about author side experience. The user side installation process and result remains the same.</em>)</p>
+
+<p>Last week we called <strong>BS</strong> on that:</p>
+
+<ul>
+<li>Generated code should be automagic</li>
+<li>Generated code should not get committed if possible</li>
+</ul>
+
+<p>We think we figured out how to make this work in a few styles that will fit in with various module author development styles. One of our goals is that when you use Inline::Module, you can test using the pure Perl mantra:</p>
+
+<pre><code>prove -lv t/
+</code></pre>
+
+<p>But at this point it is too late to autostub. We need something to happen just before that. One idea is to do this:</p>
+
+<pre><code>PERL5OPT=&#39;-MInline::Module=autostub&#39; prove -lv t/
+</code></pre>
+
+<p>or:</p>
+
+<pre><code>export PERL5OPT=&#39;-MInline::Module=autostub&#39;
+... later on ...
+prove -lv t/
+</code></pre>
+
+<p>This adds a CODE ref to <code>@INC</code> to do the autostubbing, just in time.</p>
+
+<p>We&#39;ll have a few ways to do it, so that if you are someone who likes to do everything explicitly, you can still just:</p>
+
+<pre><code>perl-inline-module generate Acme::Math::XS::Inline
+</code></pre>
+
+<p>This autostubbing should be done in the next couple days. We&#39;ll let you know how it turned out in the next review.</p>
+</div>
+<hr />
+                      <div class="blog-post">
   <h2 class="blog-post-title">Inline Grant Weekly Report #5</h2>
   <p class="blog-post-meta">
     November 22, 2014    by
@@ -423,7 +478,7 @@ use Acme::Math::XS::Inline C =&gt; &quot;int add(int a, int b) &#123;return a + 
 <p>We really want to thank the community for this opportunity to make Perl better!</p>
 </div>
 <hr />
-                    </div><!-- /.blog-main -->
+              </div><!-- /.blog-main -->
 <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
   <div class="sidebar-module sidebar-module-inset">
   <h4>About</h4>

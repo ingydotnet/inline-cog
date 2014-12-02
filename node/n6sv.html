@@ -8,7 +8,7 @@
   <meta name="author" content="">
   <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-  <title>Ingy and David Bio</title>
+  <title>Inline Grant Weekly Report #6</title>
 
   <!-- Bootstrap core CSS -->
   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -39,31 +39,54 @@
       <div class="row">
         <div class="col-sm-8 blog-main">
 <div class="blog-post">
-  <h2 class="blog-post-title">Ingy and David Bio</h2>
-    <h2>Ingy döt Net</h2>
+  <h2 class="blog-post-title">Inline Grant Weekly Report #6</h2>
+    <p><strong>Happy belated Thanksgiving!!!</strong></p>
 
-<p>Ingy is the original creator of <code>Inline</code> and <code>Inline::C</code>. His primary focus in Perl is to bring the &quot;hard&quot; things into the hands of beginners.</p>
+<p>Last week was a bit slow on the Inline front. Not much code got done but one important idea came along that (potentially) simplifies the whole Inline::Module dance. We call it <em>auto-stubbing</em>.</p>
+
+<h2>Auto-Stubbing</h2>
+
+<p>When a module has Inline C (or C++) code in it, it needs a <strong>stub</strong> module to invoke Inline and<em>or dynaload a shared library. This stub is </em>generated code/. We had a command for the module auhor to generate it:</p>
+
+<pre><code>perl-inline-module generate Acme::Math::XS::Inline
+</code></pre>
+
+<p>and we assumed authors would commit this code, and regenerate it from time to time as Inline::Module required it to change.</p>
+
+<p>(<strong>NOTE:</strong> This is all about author side experience. The user side installation process and result remains the same.)</p>
+
+<p>Last week we called <strong>BS</strong> on that:</p>
 
 <ul>
-<li>Ingy döt Net &lt;ingy@ingy.net&gt;</li>
-<li><a href="http://ingy.net">http://ingy.net</a></li>
-<li><a href="https://github.com/ingydotnet">https://github.com/ingydotnet</a></li>
-<li><a href="https://twitter.com/ingydotnet">https://twitter.com/ingydotnet</a></li>
+<li>Generated code should be automagic</li>
+<li>Generated code should not get committed if possible</li>
 </ul>
 
-<h2>David Oswald</h2>
+<p>We think we figured out how to make this work in a few styles that will fit in with various module author development styles. One of our goals is that when you use Inline::Module, you can test using the pure Perl mantra:</p>
 
-<p>David has been maintaining <code>Inline::CPP</code> for four years, and is the only person to have made releases on <code>Inline::CPP</code> since 2003.</p>
+<pre><code>prove -lv t/
+</code></pre>
 
-<ul>
-<li>David Oswald &lt;daoswald@gmail.com&gt;</li>
-<li><a href="https://github.com/daoswald">https://github.com/daoswald</a></li>
-<li><a href="https://twitter.com/doswaldcal">https://twitter.com/doswaldcal</a></li>
-</ul>
+<p>But at this point it is too late to autostub. We need something to happen just before that. One idea is to do this:</p>
 
-<hr/>
+<pre><code>PERL5OPT=&#39;-MInline::Module=autostub&#39; prove -lv t/
+</code></pre>
 
-<p>Ingy and David work well together and have decided to collaborate on a number of big projects that benefit Perl and Software Development. Inline was the obvious first choice.</p>
+<p>or:</p>
+
+<pre><code>export PERL5OPT=&#39;-MInline::Module=autostub&#39;
+... later on ...
+prove -lv t/
+</code></pre>
+
+<p>This adds a CODE ref to <code>@INC</code> to do the autostubbing, just in time.</p>
+
+<p>We&#39;ll have a few ways to do it, so that if you are someone who likes to do everything explicitly, you can still just:</p>
+
+<pre><code>perl-inline-module generate Acme::Math::XS::Inline
+</code></pre>
+
+<p>This autostubbing should be done in the next couple days. We&#39;ll let you know how it turned out in the next review.</p>
 </div>
         </div><!-- /.blog-main -->
 <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
