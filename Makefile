@@ -12,6 +12,9 @@ ALL_JSON   := js/all.json
 COG_ROOT   := $(BRANCHDIR)/cog
 BUILD_ROOT := $(BRANCHDIR)/build
 
+# XXX Temporary hack to make module links work.
+SWIM_LINK_FORMAT_HACK := metacpan
+
 include pkg/nodes.mk
 
 ALL_SWIM := $(COGNODES:%=tmp/swim/%.swim)
