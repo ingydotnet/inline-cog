@@ -9,7 +9,7 @@ proxy invocations of [Inline], so we can write simple code like this:
   package My::Module;
   use My::Module::Inline C => '... C code here ...';
 
-and have it do all the right things at the write times for `My::Module`. This
+and have it do all the right things at the right times for `My::Module`. This
 obviously means that `My::Module::Inline` needs to exist somewhere, even
 though it is just a couple of lines of simple code.
 
@@ -34,7 +34,7 @@ under the `blib` directory like this:
 
 == Auto-Stubbing
 
-I'd call that Explicit Stubbing. *DON'T DO THAT!*
+I'd call that /Explicit Stubbing/. *DON'T DO THAT!*
 
 Well you can if you want but the cool new way to use Inline::Module is with
 *Auto* Stubbing. Here's how you do it:
@@ -55,11 +55,11 @@ about an extra file laying around.
 
 This is a small change but now all the Inline build time stuff happens under
 the `blib/Inline/` directory. We had it building directly under `blib/` but
-since that a well defined concept, it made things confusing.
+since that is a well defined concept, it made things confusing.
 
 In general with this project, we are trying to extend Perl coding
 best-practices in ways that make XS module authoring as simple as possible,
-while not diverging very far from the norm.
+while not diverging very far from normal authoring styles.
 
 == Testing
 
@@ -69,9 +69,11 @@ Most of these tests so far are of the `xt` form. Since almost anything goes in
 are generally of the form: "run this command, in this environment and see if
 these files exist, etc", Bash tests make sense.
 
-Some time ago I ported [Test::More] to Bash. You can run them with `prove`
-justlike Perl tests. The `prove` command just looks at the /hashbang/ line of
-the `.t` files and sees that it is Bash, and runs Bash instead. Here's an
+Some time ago I ported
+"Test::More to Bash"[https://github.com/ingydotnet/test-more-bash]. You can run
+them with `prove` justlike Perl tests. The `prove` command just looks at the
+/hashbang/ line of the `.t` files and sees that it is Bash, and runs Bash
+instead. Here's an
 "example test file"[https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/generate-stub.t].
 As you can see it is very simple and easy to understand. If you squint your
 eyes, it almost looks like Perl!
