@@ -1,4 +1,6 @@
 permapages: page
+	cp node/dgq3.html page/inline-grant-weekly-report-7.html
+	cp node/n6sv.html page/inline-grant-weekly-report-6.html
 	cp node/cc8p.html page/inline-grant-weekly-report-5.html
 	cp node/mh4x.html page/inline-grant-weekly-report-4.html
 	cp node/m6z3.html page/inline-grant-weekly-report-3.html

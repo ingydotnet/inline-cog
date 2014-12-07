@@ -39,6 +39,83 @@
       <div class="row">
         <div class="col-sm-8 blog-main">
               <div class="blog-post">
+  <h2 class="blog-post-title"><a href="node/dgq3.html">Inline Grant Weekly Report #7</a></h2>
+  <p class="blog-post-meta">
+    December 6, 2014    by
+    <a href="page/ingy-and-david-bio.html">Ingy and David</a>
+  </p>
+  <p>This week made great strides for Inline::Module. Last week, we talked about <strong>auto-stubbing</strong>. That&#39;s the automatic generation of little &quot;stub&quot; modules that proxy invocations of <a href="https://metacpan.org/pod/Inline">Inline</a>, so we can write simple code like this:</p>
+
+<pre><code>package My::Module;
+use My::Module::Inline C =&gt; &#39;... C code here ...&#39;;
+</code></pre>
+
+<p>and have it do all the right things at the right times for <code>My::Module</code>. This obviously means that <code>My::Module::Inline</code> needs to exist somewhere, even though it is just a couple of lines of simple code.</p>
+
+<p>This week auto-stubbing is a reality and it works well! In fact, it turns out that the &quot;stub&quot; module never even needs to exist on disk. Read on!</p>
+
+<h2>Latest Developments</h2>
+
+<p>We got rid of the <code>bin</code> script: <code>perl-inline-module</code> that was used to generate stubs, like this:</p>
+
+<pre><code>perl-inline-module generate Acme::Math::XS::Inline
+</code></pre>
+
+<p>We replaced it with a simple one-liner:</p>
+
+<pre><code>perl -MInline::Module=makestub,Acme::Math::XS::Inline
+</code></pre>
+
+<p>That will generate the file: <code>lib/Acme/Math/XS/Inline.pm</code>. You can generate it under the <code>blib</code> directory like this:</p>
+
+<pre><code>perl -MInline::Module=makestub,Acme::Math::XS::Inline,blib
+</code></pre>
+
+<h2>Auto-Stubbing</h2>
+
+<p>I&#39;d call that <em>Explicit Stubbing</em>. <strong>DON&#39;T DO THAT!</strong></p>
+
+<p>Well you can if you want but the cool new way to use Inline::Module is with <strong>Auto</strong> Stubbing. Here&#39;s how you do it:</p>
+
+<pre><code>export PERL5OPT=-MInline::Module=autostub,Acme::Math::XS::Inline
+</code></pre>
+
+<p>Now whenever <code>Acme::Math::XS::Inline</code> is needed in development, it is provided/loaded as a Perl in-memory file object!</p>
+
+<p>You can also auto-stub to disk if you want:</p>
+
+<pre><code>export PERL5OPT=-MInline::Module=autostub,Acme::Math::XS::Inline,blib
+</code></pre>
+
+<p>but why would you want to? With the in-memory stubs, you don&#39;t need to worry about an extra file laying around.</p>
+
+<h2><code>blib/Inline/</code></h2>
+
+<p>This is a small change but now all the Inline build time stuff happens under the <code>blib/Inline/</code> directory. We had it building directly under <code>blib/</code> but since that is a well defined concept, it made things confusing.</p>
+
+<p>In general with this project, we are trying to extend Perl coding best-practices in ways that make XS module authoring as simple as possible, while not diverging very far from normal authoring styles.</p>
+
+<h2>Testing</h2>
+
+<p>We started writing tests that can verify all the processes we are imagining. Most of these tests so far are of the <code>xt</code> form. Since almost anything goes in <code>xt</code> I decided to write these tests in Bash instead of Perl. Since these tests are generally of the form: &quot;run this command, in this environment and see if these files exist, etc&quot;, Bash tests make sense.</p>
+
+<p>Some time ago I ported <a href="https://github.com/ingydotnet/test-more-bash">Test::More to Bash</a>. You can run them with <code>prove</code> justlike Perl tests. The <code>prove</code> command just looks at the <em>hashbang</em> line of the <code>.t</code> files and sees that it is Bash, and runs Bash instead. Here&#39;s an <a href="https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/generate-stub.t">example test file</a>. As you can see it is very simple and easy to understand. If you squint your eyes, it almost looks like Perl!</p>
+
+<h2>Next Steps</h2>
+
+<p>We should be wrapping this Grant project up soon. We still need to:</p>
+
+<ul>
+<li>Add Module::Build support</li>
+<li>Update all the pluins</li>
+<li>Update the docs</li>
+<li>Migrate a few real XS modules to Inline::Module</li>
+</ul>
+
+<p>Stay tuned. Inline Modules are becoming a reality!</p>
+</div>
+<hr />
+                      <div class="blog-post">
   <h2 class="blog-post-title"><a href="node/n6sv.html">Inline Grant Weekly Report #6</a></h2>
   <p class="blog-post-meta">
     December 1, 2014    by
@@ -446,36 +523,6 @@ use Acme::Math::XS::Inline C =&gt; &quot;int add(int a, int b) &#123;return a + 
 </code></pre>
 
 <p>There&#39;s no need to run <code>make</code> to build the C/C++/XS in <code>blib</code> and then add <code>-b</code> to the <code>prove</code> flags, because this is <strong>Inline</strong>!</p>
-</div>
-<hr />
-                                  <div class="blog-post">
-  <h2 class="blog-post-title"><a href="node/y5yq.html">Inline Grant Accepted</a></h2>
-  <p class="blog-post-meta">
-    October 20, 2014    by
-    <a href="page/ingy-and-david-bio.html">Ingy and David</a>
-  </p>
-  <p>(or <strong>How I Learned to Stop Worrying and Love The Perl</strong>)</p>
-
-<p>Last week I returned from 3 weeks of adventure in Berlin and Netherland. Funny story… the night I arrived at Liz and Wendy&#39;s place, I was made aware of 2 things:</p>
-
-<ul>
-<li>Liz is on the TPF grant board</li>
-<li>She had a surprise for me, but couldn&#39;t tell me until midnight :)</li>
-</ul>
-
-<p>Spoiler: <a href="http://news.perlfoundation.org/2014/09/grant-proposal-inlinecpp-modul.html">The Inline Grant</a> was approved!</p>
-
-<p>The following evening, I attended the amsterdamx.pm (expats) at Booking.com++ HQ, and upon entering the meeting room, was asked by SawyerX if I could give a talk since ribasushi was stuck in traffic. Huh? WTF? Definitely! :) In the kind of coincidence that only happens regularly in the world of Perl, Karen Pauley happened to be there as well, not to mention Stevan, Jarrko and Dan Kogai! I rambled on about a dozen things that were currently loaded into ingy-RAM, but held off on talking about the grant as it hadn&#39;t been made public just yet.</p>
-
-<p>7 days to the minute later I gave a talk at amsterdam.pm and the main subject was the Inline grant. Instead of a talk, I gave a &quot;listen&quot;! I asked everyone there how they would go about actually implementing the grant solution. I got a lot of ideas, and since then I think I&#39;ve figured it out. Stay tuned…</p>
-
-<h2>Welcome to the Inline Grant blog!</h2>
-
-<p>I think this is the first TPF grant to be given to a pair of pair programmers! David and I want to make things as open as we can, so we plan to give weekly updates in addition to the TPF monthly status updates.</p>
-
-<p>Today (October 20th) marks the start of work in earnest on the grant. The delay is due to my unexpected but most fruitful trip to Europe. I&#39;m dejetlagged and ready to hack! David has also just finished a lovely family vacation (to Zion and Bryce National Parks (YAPC::15 attendees with wheels should take note!)).</p>
-
-<p>We really want to thank the community for this opportunity to make Perl better!</p>
 </div>
 <hr />
               </div><!-- /.blog-main -->

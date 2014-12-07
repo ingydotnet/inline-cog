@@ -13,7 +13,7 @@ COG_ROOT   := $(BRANCHDIR)/cog
 BUILD_ROOT := $(BRANCHDIR)/build
 
 # XXX Temporary hack to make module links work.
-SWIM_LINK_FORMAT_HACK := 1
+# SWIM_LINK_FORMAT_HACK := 1
 
 include pkg/nodes.mk
 

@@ -1,4 +1,5 @@
 COGNODES := \
+	dgq3 \
 	n6sv \
 	cc8p \
 	mh4x \
