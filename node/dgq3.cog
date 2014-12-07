@@ -1,0 +1,88 @@
+Name: Inline Grant Weekly Report #7
+Type: post
+Date: December 6, 2014
+
+This week made great strides for Inline::Module. Last week, we talked about
+*auto-stubbing*. That's the automatic generation of little "stub" modules that
+proxy invocations of [Inline], so we can write simple code like this:
+
+  package My::Module;
+  use My::Module::Inline C => '... C code here ...';
+
+and have it do all the right things at the write times for `My::Module`. This
+obviously means that `My::Module::Inline` needs to exist somewhere, even
+though it is just a couple of lines of simple code.
+
+This week auto-stubbing is a reality and it works well! In fact, it turns out
+that the "stub" module never even needs to exist on disk. Read on!
+
+== Latest Developments
+
+We got rid of the `bin` script: `perl-inline-module` that was used to generate
+stubs, like this:
+
+  perl-inline-module generate Acme::Math::XS::Inline
+
+We replaced it with a simple one-liner:
+
+  perl -MInline::Module=makestub,Acme::Math::XS::Inline
+
+That will generate the file: `lib/Acme/Math/XS/Inline.pm`. You can generate it
+under the `blib` directory like this:
+
+  perl -MInline::Module=makestub,Acme::Math::XS::Inline,blib
+
+== Auto-Stubbing
+
+I'd call that Explicit Stubbing. *DON'T DO THAT!*
+
+Well you can if you want but the cool new way to use Inline::Module is with
+*Auto* Stubbing. Here's how you do it:
+
+  export PERL5OPT=-MInline::Module=autostub,Acme::Math::XS::Inline
+
+Now whenever `Acme::Math::XS::Inline` is needed in development, it is
+provided/loaded as a Perl in-memory file object!
+
+You can also auto-stub to disk if you want:
+
+  export PERL5OPT=-MInline::Module=autostub,Acme::Math::XS::Inline,blib
+
+but why would you want to? With the in-memory stubs, you don't need to worry
+about an extra file laying around.
+
+== `blib/Inline/`
+
+This is a small change but now all the Inline build time stuff happens under
+the `blib/Inline/` directory. We had it building directly under `blib/` but
+since that a well defined concept, it made things confusing.
+
+In general with this project, we are trying to extend Perl coding
+best-practices in ways that make XS module authoring as simple as possible,
+while not diverging very far from the norm.
+
+== Testing
+
+We started writing tests that can verify all the processes we are imagining.
+Most of these tests so far are of the `xt` form. Since almost anything goes in
+`xt` I decided to write these tests in Bash instead of Perl. Since these tests
+are generally of the form: "run this command, in this environment and see if
+these files exist, etc", Bash tests make sense.
+
+Some time ago I ported [Test::More] to Bash. You can run them with `prove`
+justlike Perl tests. The `prove` command just looks at the /hashbang/ line of
+the `.t` files and sees that it is Bash, and runs Bash instead. Here's an
+"example test file"[https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/generate-stub.t].
+As you can see it is very simple and easy to understand. If you squint your
+eyes, it almost looks like Perl!
+
+== Next Steps
+
+We should be wrapping this Grant project up soon. We still need to:
+
+* Add Module::Build support
+* Update all the pluins
+* Update the docs
+* Migrate a few real XS modules to Inline::Module
+
+Stay tuned. Inline Modules are becoming a reality!
