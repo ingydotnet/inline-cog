@@ -1,6 +1,6 @@
 [% USE dumper %]
 [% WRAPPER 'layout.html' post=$post %]
-  [% max = 7; count = 0 %]
+  [% max = 20; count = 0 %]
   [% FOREACH post_ IN nodes %]
     [% IF post_.type == 'post' %]
       [% PROCESS 'post.html' %]
