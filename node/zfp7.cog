@@ -11,9 +11,9 @@ project! Read on.
 
 This report will be organized by the modules created and updated this week.
 
-== `R.pm`
+== R.pm
 
-The hacker known as `sivoais` on IRC #inline, started a project to embed the
+The hacker known as *sivoais* on IRC #inline, started a project to embed the
 "R" language in Perl. It uses [PDL] and [Inline::C]. This week he got the
 whole thing to work using [Inline::Module] and
 [Dist::Zilla::Plugin::InlineModule]. It's not yet shipped to CPAN, but the
@@ -24,7 +24,7 @@ dist that has Inline::Module and Inline::C support to do all the XS work
 easily. That's what this grant is all about. Thanks sivoais! (aka ZMUGHAL on
 CPAN)
 
-== `Alt::Math::Prime::FastSieve::Inline`
+== [Alt::Math::Prime::FastSieve::Inline]
 
 David wrote [Math::Prime::FastSieve] a few years ago, to show off using
 [Inline::CPP] for a CPAN module. He was able to do it, but it had an [Inline]
@@ -34,23 +34,23 @@ This week we released it as [Alt::Math::Prime::FastSieve::Inline] using the
 latest [Inline::Module]. This required some refactoring of [Inline::CPP]. See
 below.
 
-== `Inline::CPP`
+== [Inline::CPP]
 
 We needed to bring [Inline::CPP] into closer parity with [Inline::C] (in the
 parser department). Basically we moved [Inline::CPP::Grammar] to
 [Inline::CPP::Parser::RecDescent]. This also makes Inline::CPP work with
 Inline's `using` directive.
 
-This let us do the right thing from [Inline::Module] and after that `C++` Just
+This let us do the right thing from [Inline::Module] and after that *C++* Just
 Worked™. Note that even though Inline::CPP uses both Inline and Inline::C, no
 changes were required to those two modules. (No change, is good change).
 
-== `Dist::Zilla::Plugin::InlineModule`
+== [Dist::Zilla::Plugin::InlineModule]
 
-In order for `sivoais` to use Inline::Module, we needed to update the
+In order for *sivoais* to use Inline::Module, we needed to update the
 [Dist::Zilla] plugin to work with the latest code. Ironically, sivoais himself
 did most of the work. Ingy pulled him into a realtime PairUp™ session and soon
-it was done. Dist::Zilla superstar `ether++` helped us find a couple of the
+it was done. Dist::Zilla superstar *ether++* helped us find a couple of the
 deep magic requirements that were needed to make it all work.
 
 The [Dist::Zilla::Plugin::InlineModule] module ends up being extremely simple
