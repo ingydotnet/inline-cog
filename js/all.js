@@ -2030,6 +2030,22 @@ output += '<p>Name: Inline Grant Weekly Report #1 Type: post Date: October 25, 2
     return output;
 }
 
+Jemplate.templateMap['u2gc.html'] = function(context) {
+    if (! context) throw('Jemplate function called without context\n');
+    var stash = context.stash;
+    var output = '';
+
+    try {
+output += '<p>Name: Inline Grant Weekly Report #9 Type: post Date: December 20, 2014</p>\n\n<p>It&#39;s just days before Christmas.</p>\n\n<p>What happens on Christmas? It&#39;s the when Perl software is <strong>READY</strong>!</p>\n\n<p>What does one do in the days before Christmas? Wrap things up, of course.</p>\n\n<h2>Want a present? Get Inline!</h2>\n\n<p>David and Ingy are trying to be good Santas and get our gifts for all the Perl kids wrapped up in time for the special day. This week the final pieces came together:</p>\n\n<ul>\n<li>Module::Build Support</li>\n<li>Inline::CPP compiler detection</li>\n<li>Lots of testing, debugging and fixes</li>\n</ul>\n\n<p><em>You&#39;d better not pout. I&#39;m telling you why... <a href="https://metacpan.org/pod/Inline::Module">Inline::Module</a>&#39;s coming to Perl!</em></p>\n\n<p>Be nice!</p>\n';
+    }
+    catch(e) {
+        var error = context.set_error(e, output);
+        throw(error);
+    }
+
+    return output;
+}
+
 Jemplate.templateMap['v3e7.html'] = function(context) {
     if (! context) throw('Jemplate function called without context\n');
     var stash = context.stash;
