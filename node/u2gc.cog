@@ -1,0 +1,24 @@
+Name: Inline Grant Weekly Report #9
+Type: post
+Date: December 20, 2014
+
+It's just days before Christmas.
+
+What happens on Christmas? It's the when Perl software is *READY*!
+
+What does one do in the days before Christmas? Wrap things up, of course.
+
+== Want a present? Get Inline!
+
+David and Ingy are trying to be good Santas and get our gifts for all the Perl
+kids wrapped up in time for the special day. This week the final pieces came
+together:
+
+* Module::Build Support
+* Inline::CPP compiler detection
+* Lots of testing, debugging and fixes
+
+/You'd better not pout. I'm telling you why...
+[Inline::Module]'s coming to Perl!/
+
+Be nice!
