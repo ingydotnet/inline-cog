@@ -1,6 +1,7 @@
 site_title: The TPF Inline Grant Info Site
 heading: Up to date information on The Perl Foundation's 2014 grant for Inline.pm.
 node_order:
+- u2gc
 - zfp7
 - dgq3
 - n6sv
