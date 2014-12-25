@@ -83,8 +83,8 @@ stub(s) up to date every time you run it.
 
 We also created a technique called /autostubbing/ that makes an in-memory-only
 module, so you don't have the generated code on disk. It requires that you set
-the PERL5OPT variable a certain way. Looking back, this technique might /not/
-be our best practice and we may remove support for it in the future.
+the `PERL5OPT` variable a certain way. Looking back, this technique might
+/not/ be our best practice and we may remove support for it in the future.
 
 == Using Inline::Module
 
@@ -159,7 +159,7 @@ and use the most transparent methods we could think of. Not everything we did
 was a total success, and I'm sure we could have taken it much further but
 here's some of the things we tried:
 
-* Communicate entirely in IRC (irc.perl.org #inline)
+* Communicate entirely in IRC (irc.perl.org `#inline`)
 * Use PairUp™, remote shared server using tmux and weechat
 * Televise (live stream) the PairUp™ sessions using termcasting
 * Write weekly blog posts on our progress
@@ -178,12 +178,12 @@ We gave up on the termcasting due to numerous technical glitches. I'd like to
 see it fixed, because it lets anyone watch the live pair programming terminal
 (but not interact with it). They can then see what we are doing and offer help
 on IRC. Part of the PairUp terminal is an IRC pane that is always tuned to
-#inline.
+`#inline`.
 
 David and I are Inline experts, but we aren't module framework experts. (I've
 written a few, but I'm no expert). When it came to Dist::Zilla and
 Module::Build we needed help. We asked for help. We got help. In real time! We
-invited the framework experts to #inline and asked them what to do. When
+invited the framework experts to `#inline` and asked them what to do. When
 things went south, we got them into the PairUp session and they set things
 right within minutes.
 
