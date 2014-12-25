@@ -1,0 +1,337 @@
+Name: Inline Grant Wrap Up (and Christmas Delivery)
+Type: post
+Date: December 25, 2014
+
+*Ho ho ho! Merry Christmas!*
+
+Regardless of your holiday faith inclinations, in the *Land of Perl* it's all
+about *Christmas*. That's the day that projects and promises get wrapped up
+and delivered. Today Ingy and David (döt Claus) deliver you a fresh new
+[Inline::Module]! It's the culmination of 2 busy months of coding that wraps
+up our "TPF Grant"[http://is.gd/YO6LDK] work.
+
+This is the final report for the TPF Inline Grant. It tells of the journey;
+the good, the bad and the awesome; and ends up with the shiny new gift under
+your CPAN tree. You also get your fair share of stocking stuffers. Read on!
+
+== Inline::Module
+
+When David and I started the grant work, we knew what we wanted to accomplish,
+but we really didn't know how we were going to do it. We didn't even know what
+the new modules would be called. Here's what we did know:
+
+* We wanted Inline modules to be on par with XS ones
+* We wanted no extra dependencies for installation
+* We wanted to support all common Perl module frameworks
+* We wanted Inline usage to not change much
+* We wanted the new framework abstractions to /feel right/
+* We wanted to support C++ as well as C
+
+Two weeks before we began I asked a bunch of smart people at an Amsterdam.pm
+meeting, how they might go about it. I don't recall all the ideas that were
+talked about but I do recall that leont++ was there. Leon ended up being most
+helpful on several occasions for this project.
+
+Once we started, we quickly settled on making a new helper module called
+[Inline::Module]. All the new logic was added there. We wrote plugins for 3 of
+the frameworks, but all the logic for them is in Inline::Module.
+
+Inline::Module is less than 500 lines. The plugins are all under 100 lines.
+The [Inline] module itself required one small change. [Inline::C] was not
+changed at all. [Inline::CPP] need a few changes to bring it more up to date
+with Inline::C.
+
+The plan was pretty simple. We needed to modify the `build` and `distdir`
+operations of the module frameworks. We also needed to make sure that a `prove
+-l t/` command would trigger a build. That's pretty easy, because that's what
+Inline already does. We just needed to make sure that everything happened at
+the right times (the same times that an XS build or distdir would do them).
+
+== Mine's a Stubby, Mate
+
+The biggest problem was how to make sure that an installed module based on
+Inline /never/ needed Inline.pm and friends. If you say:
+
+  use Inline C => <code>;
+
+then you absolutely will load a module called Inline. That's the way all
+Inline usage happens (in a `use` statement), so what could we do?
+
+What if we made up a new convention to replace Inline with a module that
+sometimes called Inline (during development, testing, and user side
+compilation) and then only ever called [DynaLoader] after installation (no
+matter what)? Sounds worth a try, right?
+
+  use Your::Module::Inline C => <code>;
+
+That's the new convention. Make a new module by adding `::Inline` to the end
+of whatever module is using it. This module will proxy its arguments on to the
+real Inline (or just call DynaLoader after installed). We call this new module
+a *stub*. I'm not sure if that's the best name, but that's the name we chose.
+
+The stub module is just a few lines long. Actually there are 2 distinct stub
+forms: the Inline one and the DynaLoader one, and they are both a few boring
+lines long. So boring that Inline::Module /generates/ them for you.
+
+The explicit way to do it is with this command:
+
+  $ perl -MInline::Module=makestub,Your::Module::Inline
+  Created stub module 'lib/Your/Module/Inline.pm' (Inline::Module 0.30)
+
+Or you can add `makestub => 1` to your `Makefile.PL` and it will keep your
+stub(s) up to date every time you run it.
+
+We also created a technique called /autostubbing/ that makes an in-memory-only
+module, so you don't have the generated code on disk. It requires that you set
+the PERL5OPT variable a certain way. Looking back, this technique might /not/
+be our best practice and we may remove support for it in the future.
+
+== Using Inline::Module
+
+We really wanted to make sure that this new stuff worked in whatever module
+framework people wanted to use. [Dist::Zilla] is popular these days, but
+there's also [Module::Install], [Module::Build] and plain old `Makefile.PL`
+([ExtUtils::MakeMaker]). I (being Ingy) also have a new one that I use
+exclusively called [Zilla::Dist]. [Inline::Module] supports them all.
+
+With EU:MM you just `use Inline::Module` in your `Makefile.PL`. D:Z, M:B, and
+M:I all have plugins, since that's how they work. Z:D support is built-in. Z:D
+just generates a D:Z `dist.ini` file from metadata (a `Meta` file), so
+effectively it uses the D:Z plugin as well.
+
+All the plugins are simple and do the same things but for their respective
+frameworks. To make sure that there was no duplicate code, the plugins call
+methods within Inline::Module to do their work.
+
+Inline::Module just needs 3 things to do its magic:
+
++ The module(s) that has the inline C/C++ code
++ The name(s) of the stub(s)
++ The name of the Inline Language Support Module (ILSM)
+  * Inline::C
+  * Inline::CPP
+
+The stub names default to appending `::Inline` to the module names. The ILSM
+defaults to Inline::C.
+
+In a Makefile.PL you add something like this to the `WriteMakefile` arguments
+in your `Makefile.PL`:
+
+  postamble => {
+    inline => {
+      module => 'Acme::Math::XS',
+      stub => 'Acme::Math::XS::Inline',
+      ilsm => 'Inline::C',
+    },
+  },
+
+With Dist::Zilla, you add the same info to your `dist.ini` file:
+
+  [InlineModule]
+  module = Acme::Math::XS
+  stub = Acme::Math::XS::Inline
+  ilsm = Inline::C
+
+and so on. Each framework takes the same info.
+
+*Re: Module::Build:* There was some push-back from the community to provide
+support for Module::Build because some people think it is dead, or want to see
+it die ASAP. I had no opinion one way or the other, but when you have the
+primary maintainer (leont) hanging out and offering help, why not give it a
+try? In the end, I found interacting with Module::Build to be a very pleasing
+experience. Take a look at "the code"[http://is.gd/zGhXhl]. Not bad, eh?
+
+== Public Displays of Affection
+
+I love the Perl community because of its fantastic group energy. Nothing is
+impossible. Everything's a challenge. I've always tried to take the highest,
+boldest, freshest, and most impossible roads to programming, and no other
+community is more accommodating than Perl's.
+
+I also like to push the boundaries of group and public programming. When I got
+this grant, I wasn't going to waste the opportunity to push forward on
+multiple fronts. Even before the project was granted, I decided that /I/
+should be /we/. This is the first TPF project to be granted to a /pair/ of
+programmers. Hopefully that continues.
+
+But why stop at 2? We wanted to involve as much of the community as possible,
+and use the most transparent methods we could think of. Not everything we did
+was a total success, and I'm sure we could have taken it much further but
+here's some of the things we tried:
+
+* Communicate entirely in IRC (irc.perl.org #inline)
+* Use PairUp™, remote shared server using tmux and weechat
+* Televise (live stream) the PairUp™ sessions using termcasting
+* Write weekly blog posts on our progress
+* Tweet and post to http://blogs.perl.org
+* Notify the Perlweekly newsletter
+* Continually release to GitHub and use their issues tracker
+* Invite framework experts (ether, leont, sivoais) into PairUps as needed
+
+The IRC channel was a big success. There's about 20 people in there on
+average, and they are quite the knowledgeable crew.
+
+PairUp is a technique I've used for over a year now to pull unsuspecting
+IRC\/GitHub users into a live coding session. /I love everyone. You're next!/
+
+We gave up on the termcasting due to numerous technical glitches. I'd like to
+see it fixed, because it lets anyone watch the live pair programming terminal
+(but not interact with it). They can then see what we are doing and offer help
+on IRC. Part of the PairUp terminal is an IRC pane that is always tuned to
+#inline.
+
+David and I are Inline experts, but we aren't module framework experts. (I've
+written a few, but I'm no expert). When it came to Dist::Zilla and
+Module::Build we needed help. We asked for help. We got help. In real time! We
+invited the framework experts to #inline and asked them what to do. When
+things went south, we got them into the PairUp session and they set things
+right within minutes.
+
+A shout-out goes to (at least):
+
+- doy :: Termcast fixes
+- leont :: EUMM & M:B help
+- sivoais :: Pairing and using I:M
+- ether :: dzil help
+- priodev :: Always up for a PairUp!
+- rafl :: Suggesting XS modules to look at
+- bingos :: Fixed BSD/CPANPLUS smoker bug
+- mohawk :: Various ideas
+- bulk88 :: Windows and C expertise
+- Mithaldu :: More win32 help
+- mst :: For being mst
+
+== Stocking Stuffers
+
+Building a new Perl framework is only theory. Releasing CPAN modules that use
+it makes things real. Many modules have been released using Inline::Module.
+
+We started off making a simple XS module called [Acme::Math::XS]. It has
+`add()` and `subtract()` methods/exports. As simple as it gets.
+
+Using the [Alt] methodology, we made 7 /Alt/ernate versions:
+
+- [Alt::Acme::Math::XS::EUMM]
+
+  Version using Inline::Module with a `Makefile.PL` and [ExtUtils::MakeMaker].
+
+- [Alt::Acme::Math::XS::DistZilla]
+
+  Using Inline::Module with [Dist::Zilla] and
+  [Dist::Zilla::Plugin::InlineModule].
+
+- [Alt::Acme::Math::XS::ModuleBuild]
+
+  With [Module::Build] and [Module::Build::InlineModule].
+
+- [Alt::Acme::Math::XS::ModuleInstall]
+
+  With [Module::Install] and [Module::Install::InlineModule].
+
+- [Alt::Acme::Math::XS::ZillaDist]
+
+  With [Zilla::Dist].
+
+- [Alt::Acme::Math::XS::CPP]
+
+  Using Inline::Module with [Inline::CPP] and EUMM.
+
+- [Alt::Acme::Math::XS::External]
+
+  Using Inline::Module with an external `C` file.
+
+All of these code bases are under one repository, using multiple branches:
+https://github.com/ingydotnet/acme-math-xs-pm
+
+We also converted David's Inline::CPP example module [Math::Prime::FastSieve]
+to [Alt::Math::Prime::FastSieve::Inline] and an XS module suggested by Florian
+Ragwitz, [Devel::GlobalDestruction::XS], to
+[Alt::Devel::GlobalDestruction::XS::Inline].
+
+Unexpectedly, other people started using Inline::Module, along the way. I
+guess that's what happens when you make new stuff! sivoais++ wrote something
+very ambitious called [Statistics::NiceR] that uses Inline::C to bind R to
+Perl. With very few bumps, he was able to use Inline::Module, even before it
+was done! He wrote a nice post about it
+"here"[http://enetdown.org/dot-plan/posts/2014/12/24/a_fast_and_natural_interface_to_R_from_Perl/].
+
+He (sivoais) also noted this project that is using Inline::Module:
+https://github.com/tadegenban/Text-Levenshtein-Inline-pm
+
+== Testing
+
+In the past 2.5 years I've done a lot of serious Bash programming. I've
+written a full featured Git command that lets you do all your GitHub
+interaction at the command line, called
+"git-hub"[https://github.com/ingydotnet/git-hub/]. This required me (among
+other things) to write a
+"JSON parser in Bash"[https://github.com/ingydotnet/json-bash/], and to port
+"Test::More to Bash"[https://github.com/ingydotnet/test-more-bash].
+
+Inline::Module is a Perl module, and tests must be in Perl. Or must they?
+External tests (the ones that go in `xt/`) could conceivably be in any
+language. In fact, `prove` caters to this. It honors the hashbang line of the
+`.t` files.
+
+I could have 20 `.t` test files in 20 different languages and (as long as they
+had the right hashbang and output proper TAP protocol) they would all work fine
+with:
+
+  prove -lv t/
+
+For Inline::Module, most of what really needed testing was the human
+interaction at the commandline and the file system expectations. From
+experience I knew that expressing this using shell (Bash) is much easier and
+clearer than trying to do it in Perl.
+
+Take a look at these test files:
+
+* https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/test-inline-modules.t
+* https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/test-module.sh
+
+I wanted to make sure that the all known Inline::Module modules got put
+through a common set of tests. The first file states all the modules, and
+their specifics. The second file has the Test::More testing in it.
+
+I can't imagine doing all that more simply in Perl. Not even close. Pull
+requests to the contrary are welcome. :)
+
+== Swimming the Documentation
+
+All the modules come with documentation but something big like this really
+needs a tutorial, so you get one: [Inline::Module::Tutorial].
+
+We wrote all the doc in a new markup language called [Swim]. Since May 2014,
+I've converted all my Perl Pod doc to Swim. Why?
+
+Pod has a rich model for creating complex, informative, beautiful docs. Much
+richer than Markdown. So much so, that I really can't use Markdown. But to
+make nice looking HTML from Pod, takes a ton of work. Pod syntax sucks.
+Markdown has decent syntax that people like. Swim has syntax like Markdown
+(but even better) and produces everything that Pod can. So I write in Swim and
+publish in Pod. Since GitHub supports Pod (very well in fact) I can even
+publish Swim (as Pod) to GitHub!
+
+Not only did we write all the doc and the tutorial in Swim, we wrote these
+blog posts in Swim too, using a new homegrown blog system we cobbled together.
+It's all "here"[https://github.com/ingydotnet/inline-cog].
+
+== What's Next?
+
+This project was a lot of work (100s of hours) but a lot of fun too. I think
+we've set all the balls in motion that we intended, but is the project "done"?
+
+No way! Software projects are never done (done == dead), and this one is no
+exception. We gave birth to a new life form, but now it needs to grow up.
+Luckily it has you! The Perl community is the best family to raise a software
+child.
+
+There are lots of things I can think of to make Inline::Module better. You'll
+see these in the forms of GitHub issues and CPAN releases.
+
+Thank you TPF and Perl Community for giving us this opportunity. We hope it is
+as good for you as it was for us.
+
+Merry Christmas!
+
+Ingy and David
