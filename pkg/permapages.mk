@@ -1,4 +1,5 @@
 permapages: page
+	cp node/y9ga.html page/inline-grant-wrap-up-and-christmas-delivery.html
 	cp node/u2gc.html page/inline-grant-weekly-report-9.html
 	cp node/zfp7.html page/inline-grant-weekly-report-8.html
 	cp node/dgq3.html page/inline-grant-weekly-report-7.html

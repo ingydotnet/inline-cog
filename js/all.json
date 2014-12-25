@@ -1,6 +1,7 @@
 {
    "heading" : "Up to date information on The Perl Foundation's 2014 grant for Inline.pm.",
    "node_order" : [
+      "y9ga",
       "u2gc",
       "zfp7",
       "dgq3",
@@ -15,6 +16,13 @@
       "y5yq"
    ],
    "nodes" : [
+      {
+         "cogid" : "y9ga",
+         "date" : "December 25, 2014",
+         "link" : "inline-grant-wrap-up-and-christmas-delivery-",
+         "title" : "Inline Grant Wrap Up (and Christmas Delivery)",
+         "type" : "post"
+      },
       {
          "cogid" : "u2gc",
          "date" : "December 20, 2014",

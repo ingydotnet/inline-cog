@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+  <title>Inline Grant Wrap Up (and Christmas Delivery)</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/css/blog.css" rel="stylesheet">
+  <link href="/css/cog.css" rel="stylesheet">
+</head>
+  <body>
+<div class="blog-masthead">
+  <div class="container">
+    <nav class="blog-nav">
+      <a class="blog-nav-item active" href="/">Home</a>
+<!--
+      <a class="blog-nav-item" href="#">New features</a>
+      <a class="blog-nav-item" href="#">Press</a>
+      <a class="blog-nav-item" href="#">New hires</a>
+      <a class="blog-nav-item" href="#">About</a>
+-->
+    </nav>
+  </div>
+</div>
+    <div class="container">
+<div class="blog-header">
+  <h1 class="blog-title"></h1>
+  <p class="lead blog-description"></p>
+</div>
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+<div class="blog-post">
+  <h2 class="blog-post-title">Inline Grant Wrap Up (and Christmas Delivery)</h2>
+    <p><strong>Ho ho ho! Merry Christmas!</strong></p>
+
+<p>Regardless of your holiday faith inclinations, in the <strong>Land of Perl</strong> it&#39;s all about <strong>Christmas</strong>. That&#39;s the day that projects and promises get wrapped up and delivered. Today Ingy and David (döt Claus) deliver you a fresh new <a href="https://metacpan.org/pod/Inline::Module">Inline::Module</a>! It&#39;s the culmination of 2 busy months of coding that wraps up our <a href="http://is.gd/YO6LDK">TPF Grant</a> work.</p>
+
+<p>This is the final report for the TPF Inline Grant. It tells of the journey; the good, the bad and the awesome; and ends up with the shiny new gift under your CPAN tree. You also get your fair share of stocking stuffers. Read on!</p>
+
+<h2>Inline::Module</h2>
+
+<p>When David and I started the grant work, we knew what we wanted to accomplish, but we really didn&#39;t know how we were going to do it. We didn&#39;t even know what the new modules would be called. Here&#39;s what we did know:</p>
+
+<ul>
+<li>We wanted Inline modules to be on par with XS ones</li>
+<li>We wanted no extra dependencies for installation</li>
+<li>We wanted to support all common Perl module frameworks</li>
+<li>We wanted Inline usage to not change much</li>
+<li>We wanted the new framework abstractions to <em>feel right</em></li>
+<li>We wanted to support C++ as well as C</li>
+</ul>
+
+<p>Two weeks before we began I asked a bunch of smart people at an Amsterdam.pm meeting, how they might go about it. I don&#39;t recall all the ideas that were talked about but I do recall that leont++ was there. Leon ended up being most helpful on several occasions for this project.</p>
+
+<p>Once we started, we quickly settled on making a new helper module called <a href="https://metacpan.org/pod/Inline::Module">Inline::Module</a>. All the new logic was added there. We wrote plugins for 3 of the frameworks, but all the logic for them is in Inline::Module.</p>
+
+<p>Inline::Module is less than 500 lines. The plugins are all under 100 lines. The <a href="https://metacpan.org/pod/Inline">Inline</a> module itself required one small change. <a href="https://metacpan.org/pod/Inline::C">Inline::C</a> was not changed at all. <a href="https://metacpan.org/pod/Inline::CPP">Inline::CPP</a> need a few changes to bring it more up to date with Inline::C.</p>
+
+<p>The plan was pretty simple. We needed to modify the <code>build</code> and <code>distdir</code> operations of the module frameworks. We also needed to make sure that a <code>prove -l t/</code> command would trigger a build. That&#39;s pretty easy, because that&#39;s what Inline already does. We just needed to make sure that everything happened at the right times (the same times that an XS build or distdir would do them).</p>
+
+<h2>Mine&#39;s a Stubby, Mate</h2>
+
+<p>The biggest problem was how to make sure that an installed module based on Inline <em>never</em> needed Inline.pm and friends. If you say:</p>
+
+<pre><code>use Inline C =&gt; &lt;code&gt;;
+</code></pre>
+
+<p>then you absolutely will load a module called Inline. That&#39;s the way all Inline usage happens (in a <code>use</code> statement), so what could we do?</p>
+
+<p>What if we made up a new convention to replace Inline with a module that sometimes called Inline (during development, testing, and user side compilation) and then only ever called <a href="https://metacpan.org/pod/DynaLoader">DynaLoader</a> after installation (no matter what)? Sounds worth a try, right?</p>
+
+<pre><code>use Your::Module::Inline C =&gt; &lt;code&gt;;
+</code></pre>
+
+<p>That&#39;s the new convention. Make a new module by adding <code>::Inline</code> to the end of whatever module is using it. This module will proxy its arguments on to the real Inline (or just call DynaLoader after installed). We call this new module a <strong>stub</strong>. I&#39;m not sure if that&#39;s the best name, but that&#39;s the name we chose.</p>
+
+<p>The stub module is just a few lines long. Actually there are 2 distinct stub forms: the Inline one and the DynaLoader one, and they are both a few boring lines long. So boring that Inline::Module <em>generates</em> them for you.</p>
+
+<p>The explicit way to do it is with this command:</p>
+
+<pre><code>$ perl -MInline::Module=makestub,Your::Module::Inline
+Created stub module &#39;lib/Your/Module/Inline.pm&#39; (Inline::Module 0.30)
+</code></pre>
+
+<p>Or you can add <code>makestub =&gt; 1</code> to your <code>Makefile.PL</code> and it will keep your stub(s) up to date every time you run it.</p>
+
+<p>We also created a technique called <em>autostubbing</em> that makes an in-memory-only module, so you don&#39;t have the generated code on disk. It requires that you set the <code>PERL5OPT</code> variable a certain way. Looking back, this technique might <em>not</em> be our best practice and we may remove support for it in the future.</p>
+
+<h2>Using Inline::Module</h2>
+
+<p>We really wanted to make sure that this new stuff worked in whatever module framework people wanted to use. <a href="https://metacpan.org/pod/Dist::Zilla">Dist::Zilla</a> is popular these days, but there&#39;s also <a href="https://metacpan.org/pod/Module::Install">Module::Install</a>, <a href="https://metacpan.org/pod/Module::Build">Module::Build</a> and plain old <code>Makefile.PL</code> (<a href="https://metacpan.org/pod/ExtUtils::MakeMaker">ExtUtils::MakeMaker</a>). I (being Ingy) also have a new one that I use exclusively called <a href="https://metacpan.org/pod/Zilla::Dist">Zilla::Dist</a>. <a href="https://metacpan.org/pod/Inline::Module">Inline::Module</a> supports them all.</p>
+
+<p>With EU:MM you just <code>use Inline::Module</code> in your <code>Makefile.PL</code>. D:Z, M:B, and M:I all have plugins, since that&#39;s how they work. Z:D support is built-in. Z:D just generates a D:Z <code>dist.ini</code> file from metadata (a <code>Meta</code> file), so effectively it uses the D:Z plugin as well.</p>
+
+<p>All the plugins are simple and do the same things but for their respective frameworks. To make sure that there was no duplicate code, the plugins call methods within Inline::Module to do their work.</p>
+
+<p>Inline::Module just needs 3 things to do its magic:</p>
+
+<ol>
+<li>The module(s) that has the inline C/C++ code</li>
+<li>The name(s) of the stub(s)</li>
+<li>The name of the Inline Language Support Module (ILSM)
+<ul>
+<li>Inline::C</li>
+<li>Inline::CPP</li>
+</ul>
+
+</li>
+</ol>
+
+<p>The stub names default to appending <code>::Inline</code> to the module names. The ILSM defaults to Inline::C.</p>
+
+<p>In a Makefile.PL you add something like this to the <code>WriteMakefile</code> arguments in your <code>Makefile.PL</code>:</p>
+
+<pre><code>postamble =&gt; &#123;
+  inline =&gt; &#123;
+    module =&gt; &#39;Acme::Math::XS&#39;,
+    stub =&gt; &#39;Acme::Math::XS::Inline&#39;,
+    ilsm =&gt; &#39;Inline::C&#39;,
+  &#125;,
+&#125;,
+</code></pre>
+
+<p>With Dist::Zilla, you add the same info to your <code>dist.ini</code> file:</p>
+
+<pre><code>[InlineModule]
+module = Acme::Math::XS
+stub = Acme::Math::XS::Inline
+ilsm = Inline::C
+</code></pre>
+
+<p>and so on. Each framework takes the same info.</p>
+
+<p><strong>Re: Module::Build:</strong> There was some push-back from the community to provide support for Module::Build because some people think it is dead, or want to see it die ASAP. I had no opinion one way or the other, but when you have the primary maintainer (leont) hanging out and offering help, why not give it a try? In the end, I found interacting with Module::Build to be a very pleasing experience. Take a look at <a href="http://is.gd/zGhXhl">the code</a>. Not bad, eh?</p>
+
+<h2>Public Displays of Affection</h2>
+
+<p>I love the Perl community because of its fantastic group energy. Nothing is impossible. Everything&#39;s a challenge. I&#39;ve always tried to take the highest, boldest, freshest, and most impossible roads to programming, and no other community is more accommodating than Perl&#39;s.</p>
+
+<p>I also like to push the boundaries of group and public programming. When I got this grant, I wasn&#39;t going to waste the opportunity to push forward on multiple fronts. Even before the project was granted, I decided that /I/ should be <em>we</em>. This is the first TPF project to be granted to a <em>pair</em> of programmers. Hopefully that continues.</p>
+
+<p>But why stop at 2? We wanted to involve as much of the community as possible, and use the most transparent methods we could think of. Not everything we did was a total success, and I&#39;m sure we could have taken it much further but here&#39;s some of the things we tried:</p>
+
+<ul>
+<li>Communicate entirely in IRC (irc.perl.org <code>#inline</code>)</li>
+<li>Use PairUp™, remote shared server using tmux and weechat</li>
+<li>Televise (live stream) the PairUp™ sessions using termcasting</li>
+<li>Write weekly blog posts on our progress</li>
+<li>Tweet and post to <a href="http://blogs.perl.org">http://blogs.perl.org</a></li>
+<li>Notify the Perlweekly newsletter</li>
+<li>Continually release to GitHub and use their issues tracker</li>
+<li>Invite framework experts (ether, leont, sivoais) into PairUps as needed</li>
+</ul>
+
+<p>The IRC channel was a big success. There&#39;s about 20 people in there on average, and they are quite the knowledgeable crew.</p>
+
+<p>PairUp is a technique I&#39;ve used for over a year now to pull unsuspecting IRC/GitHub users into a live coding session. <em>I love everyone. You&#39;re next!</em></p>
+
+<p>We gave up on the termcasting due to numerous technical glitches. I&#39;d like to see it fixed, because it lets anyone watch the live pair programming terminal (but not interact with it). They can then see what we are doing and offer help on IRC. Part of the PairUp terminal is an IRC pane that is always tuned to <code>#inline</code>.</p>
+
+<p>David and I are Inline experts, but we aren&#39;t module framework experts. (I&#39;ve written a few, but I&#39;m no expert). When it came to Dist::Zilla and Module::Build we needed help. We asked for help. We got help. In real time! We invited the framework experts to <code>#inline</code> and asked them what to do. When things went south, we got them into the PairUp session and they set things right within minutes.</p>
+
+<p>A shout-out goes to (at least):</p>
+
+<dl>
+<dt>doy</dt>
+<dd>Termcast fixes
+<dd>
+<dt>leont</dt>
+<dd>EUMM &amp; M:B help
+<dd>
+<dt>sivoais</dt>
+<dd>Pairing and using I:M
+<dd>
+<dt>ether</dt>
+<dd>dzil help
+<dd>
+<dt>priodev</dt>
+<dd>Always up for a PairUp!
+<dd>
+<dt>rafl</dt>
+<dd>Suggesting XS modules to look at
+<dd>
+<dt>bingos</dt>
+<dd>Fixed BSD/CPANPLUS smoker bug
+<dd>
+<dt>mohawk</dt>
+<dd>Various ideas
+<dd>
+<dt>bulk88</dt>
+<dd>Windows and C expertise
+<dd>
+<dt>Mithaldu</dt>
+<dd>More win32 help
+<dd>
+<dt>mst</dt>
+<dd>For being mst
+<br/>
+
+<dd>
+</dl>
+
+<h2>Stocking Stuffers</h2>
+
+<p>Building a new Perl framework is only theory. Releasing CPAN modules that use it makes things real. Many modules have been released using Inline::Module.</p>
+
+<p>We started off making a simple XS module called <a href="https://metacpan.org/pod/Acme::Math::XS">Acme::Math::XS</a>. It has <code>add()</code> and <code>subtract()</code> methods/exports. As simple as it gets.</p>
+
+<p>Using the <a href="https://metacpan.org/pod/Alt">Alt</a> methodology, we made 7 <em>Alt</em>ernate versions:</p>
+
+<dl>
+<dt><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::EUMM">Alt::Acme::Math::XS::EUMM</a></dt>
+<dd><br/>
+<p>Version using Inline::Module with a <code>Makefile.PL</code> and <a href="https://metacpan.org/pod/ExtUtils::MakeMaker">ExtUtils::MakeMaker</a>.</p>
+
+<dd>
+<dt><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::DistZilla">Alt::Acme::Math::XS::DistZilla</a></dt>
+<dd><br/>
+<p>Using Inline::Module with <a href="https://metacpan.org/pod/Dist::Zilla">Dist::Zilla</a> and <a href="https://metacpan.org/pod/Dist::Zilla::Plugin::InlineModule">Dist::Zilla::Plugin::InlineModule</a>.</p>
+
+<dd>
+<dt><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::ModuleBuild">Alt::Acme::Math::XS::ModuleBuild</a></dt>
+<dd><br/>
+<p>With <a href="https://metacpan.org/pod/Module::Build">Module::Build</a> and <a href="https://metacpan.org/pod/Module::Build::InlineModule">Module::Build::InlineModule</a>.</p>
+
+<dd>
+<dt><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::ModuleInstall">Alt::Acme::Math::XS::ModuleInstall</a></dt>
+<dd><br/>
+<p>With <a href="https://metacpan.org/pod/Module::Install">Module::Install</a> and <a href="https://metacpan.org/pod/Module::Install::InlineModule">Module::Install::InlineModule</a>.</p>
+
+<dd>
+<dt><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::ZillaDist">Alt::Acme::Math::XS::ZillaDist</a></dt>
+<dd><br/>
+<p>With <a href="https://metacpan.org/pod/Zilla::Dist">Zilla::Dist</a>.</p>
+
+<dd>
+<dt><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::CPP">Alt::Acme::Math::XS::CPP</a></dt>
+<dd><br/>
+<p>Using Inline::Module with <a href="https://metacpan.org/pod/Inline::CPP">Inline::CPP</a> and EUMM.</p>
+
+<dd>
+<dt><a href="https://metacpan.org/pod/Alt::Acme::Math::XS::External">Alt::Acme::Math::XS::External</a></dt>
+<dd><br/>
+<p>Using Inline::Module with an external <code>C</code> file.</p>
+
+<dd>
+</dl>
+
+<p>All of these code bases are under one repository, using multiple branches: <a href="https://github.com/ingydotnet/acme-math-xs-pm">https://github.com/ingydotnet/acme-math-xs-pm</a></p>
+
+<p>We also converted David&#39;s Inline::CPP example module <a href="https://metacpan.org/pod/Math::Prime::FastSieve">Math::Prime::FastSieve</a> to <a href="https://metacpan.org/pod/Alt::Math::Prime::FastSieve::Inline">Alt::Math::Prime::FastSieve::Inline</a> and an XS module suggested by Florian Ragwitz, <a href="https://metacpan.org/pod/Devel::GlobalDestruction::XS">Devel::GlobalDestruction::XS</a>, to <a href="https://metacpan.org/pod/Alt::Devel::GlobalDestruction::XS::Inline">Alt::Devel::GlobalDestruction::XS::Inline</a>.</p>
+
+<p>Unexpectedly, other people started using Inline::Module, along the way. I guess that&#39;s what happens when you make new stuff! sivoais++ wrote something very ambitious called <a href="https://metacpan.org/pod/Statistics::NiceR">Statistics::NiceR</a> that uses Inline::C to bind R to Perl. With very few bumps, he was able to use Inline::Module, even before it was done! He wrote a nice post about it <a href="http://enetdown.org/dot-plan/posts/2014/12/24/a_fast_and_natural_interface_to_R_from_Perl/">here</a>.</p>
+
+<p>He (sivoais) also noted this project that is using Inline::Module: <a href="https://github.com/tadegenban/Text-Levenshtein-Inline-pm">https://github.com/tadegenban/Text-Levenshtein-Inline-pm</a></p>
+
+<h2>Testing</h2>
+
+<p>In the past 2.5 years I&#39;ve done a lot of serious Bash programming. I&#39;ve written a full featured Git command that lets you do all your GitHub interaction at the command line, called <a href="https://github.com/ingydotnet/git-hub/">git-hub</a>. This required me (among other things) to write a <a href="https://github.com/ingydotnet/json-bash/">JSON parser in Bash</a>, and to port <a href="https://github.com/ingydotnet/test-more-bash">Test::More to Bash</a>.</p>
+
+<p>Inline::Module is a Perl module, and tests must be in Perl. Or must they? External tests (the ones that go in <code>xt/</code>) could conceivably be in any language. In fact, <code>prove</code> caters to this. It honors the hashbang line of the <code>.t</code> files.</p>
+
+<p>I could have 20 <code>.t</code> test files in 20 different languages and (as long as they had the right hashbang and output proper TAP protocol) they would all work fine with:</p>
+
+<pre><code>prove -lv t/
+</code></pre>
+
+<p>For Inline::Module, most of what really needed testing was the human interaction at the commandline and the file system expectations. From experience I knew that expressing this using shell (Bash) is much easier and clearer than trying to do it in Perl.</p>
+
+<p>Take a look at these test files:</p>
+
+<ul>
+<li><a href="https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/test-inline-modules.t">https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/test-inline-modules.t</a></li>
+<li><a href="https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/test-module.sh">https://github.com/ingydotnet/inline-module-pm/blob/master/test/devel/test-module.sh</a></li>
+</ul>
+
+<p>I wanted to make sure that the all known Inline::Module modules got put through a common set of tests. The first file states all the modules, and their specifics. The second file has the Test::More testing in it.</p>
+
+<p>I can&#39;t imagine doing all that more simply in Perl. Not even close. Pull requests to the contrary are welcome. :)</p>
+
+<h2>Swimming the Documentation</h2>
+
+<p>All the modules come with documentation but something big like this really needs a tutorial, so you get one: <a href="https://metacpan.org/pod/Inline::Module::Tutorial">Inline::Module::Tutorial</a>.</p>
+
+<p>We wrote all the doc in a new markup language called <a href="https://metacpan.org/pod/Swim">Swim</a>. Since May 2014, I&#39;ve converted all my Perl Pod doc to Swim. Why?</p>
+
+<p>Pod has a rich model for creating complex, informative, beautiful docs. Much richer than Markdown. So much so, that I really can&#39;t use Markdown. But to make nice looking HTML from Pod, takes a ton of work. Pod syntax sucks. Markdown has decent syntax that people like. Swim has syntax like Markdown (but even better) and produces everything that Pod can. So I write in Swim and publish in Pod. Since GitHub supports Pod (very well in fact) I can even publish Swim (as Pod) to GitHub!</p>
+
+<p>Not only did we write all the doc and the tutorial in Swim, we wrote these blog posts in Swim too, using a new homegrown blog system we cobbled together. It&#39;s all <a href="https://github.com/ingydotnet/inline-cog">here</a>.</p>
+
+<h2>What&#39;s Next?</h2>
+
+<p>This project was a lot of work (100s of hours) but a lot of fun too. I think we&#39;ve set all the balls in motion that we intended, but is the project &quot;done&quot;?</p>
+
+<p>No way! Software projects are never done (done == dead), and this one is no exception. We gave birth to a new life form, but now it needs to grow up. Luckily it has you! The Perl community is the best family to raise a software child.</p>
+
+<p>There are lots of things I can think of to make Inline::Module better. You&#39;ll see these in the forms of GitHub issues and CPAN releases.</p>
+
+<p>Thank you TPF and Perl Community for giving us this opportunity. We hope it is as good for you as it was for us.</p>
+
+<p>Merry Christmas!</p>
+
+<p>Ingy and David</p>
+</div>
+        </div><!-- /.blog-main -->
+<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p>This site has the latest info about the progress of the TPF grant for Inline.pm</p>
+  </div>
+  <div class="sidebar-module">
+  <h4>Posts</h4>
+  <ol class="list-unstyled">
+  </ol>
+  </div>
+<!--
+  <h4>Archives</h4>
+  <ol class="list-unstyled">
+    <li><a href="#">October 2014</a></li>
+  </ol>
+  </div>
+-->
+<!--
+  <div class="sidebar-module">
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li><a href="#">GitHub</a></li>
+    <li><a href="#">Twitter</a></li>
+    <li><a href="#">Facebook</a></li>
+  </ol>
+  </div>
+-->
+</div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+<!--
+  <div class="blog-footer">
+    <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    <p>
+      <a href="#">Back to top</a>
+    </p>
+  </div>
+-->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+<!-- Cog JS
+================================================== -->
+<script src="js/all.js"></script>
+  </body>
+</html>
